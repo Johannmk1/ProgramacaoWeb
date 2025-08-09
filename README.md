@@ -8,7 +8,7 @@ Neste repositório, serão adicionados todos os arquivos das atividades realizad
 ## Índice
 
 - [Aula 1](#aula1)
-    Criado Repositorio no github e subido arquivos de pratica 
+    Criado repositório no GitHub e adicionado arquivos de prática
 - [Aula 2](#aula2)
 
 ## Instalação
