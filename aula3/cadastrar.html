@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cadastro Realizado com Sucesso</title>
+<style>
+  :root{
+    --radius: 22px;
+    --glass: rgba(255,255,255,.12);
+    --glass-strong: rgba(255,255,255,.22);
+  }
+
+  /* Reset básico */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color:#fff;
+    overflow:hidden; /* mantém o palco limpo */
+    background:#0b0f17;
+  }
+
+  /* Fundo com gradiente animado + “blobs” RGB */
+  .bg{
+    position:fixed; inset:0;
+    background:
+      radial-gradient(60vmax 60vmax at 10% 10%, rgba(255,0,128,.25), transparent 60%),
+      radial-gradient(60vmax 60vmax at 90% 20%, rgba(0,255,255,.25), transparent 60%),
+      radial-gradient(60vmax 60vmax at 40% 90%, rgba(255,255,0,.2), transparent 60%),
+      linear-gradient(135deg,#0b0f17 0%, #111a2a 50%, #0b0f17 100%);
+    filter: saturate(1.4) contrast(1.05);
+    animation: pan 18s linear infinite;
+  }
+  @keyframes pan{
+    0%{transform:scale(1) translate(0,0)}
+    50%{transform:scale(1.05) translate(1%, -1%)}
+    100%{transform:scale(1) translate(0,0)}
+  }
+
+  /* Camada de partículas RGB (CSS-only) */
+  .particles, .particles::before, .particles::after{
+    position: fixed; inset:0; content:"";
+    pointer-events:none; mix-blend-mode: screen;
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity:.35; filter: blur(0.5px);
+    animation: drift 30s linear infinite;
+  }
+  .particles{
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, #ff004c 80%, transparent 81%),
+      radial-gradient(2px 2px at 120px 80px, #00e5ff 80%, transparent 81%),
+      radial-gradient(2px 2px at 180px 160px, #ffe600 80%, transparent 81%),
+      radial-gradient(2px 2px at 60px 140px, #8eff7a 80%, transparent 81%);
+  }
+  .particles::before{
+    background-image:
+      radial-gradient(2px 2px at 40px 60px, #ff7af0 80%, transparent 81%),
+      radial-gradient(2px 2px at 160px 40px, #7ad1ff 80%, transparent 81%),
+      radial-gradient(2px 2px at 100px 180px, #ffb36b 80%, transparent 81%);
+    animation-duration: 42s;
+  }
+  .particles::after{
+    background-image:
+      radial-gradient(2px 2px at 80px 20px, #7cffc7 80%, transparent 81%),
+      radial-gradient(2px 2px at 140px 120px, #ff6b6b 80%, transparent 81%),
+      radial-gradient(2px 2px at 20px 180px, #ffd26b 80%, transparent 81%);
+    animation-duration: 55s;
+  }
+  @keyframes drift{
+    from{background-position: 0 0, 0 0, 0 0, 0 0}
+    to  {background-position: 200px 0, 0 200px, -200px -200px, 200px 200px}
+  }
+
+  /* Container principal */
+  .wrap{
+    position:relative;
+    min-height:100dvh;
+    display:grid;
+    place-items:center;
+    padding:24px;
+  }
+
+  /* Card vítreo com borda RGB animada */
+  .card{
+    position:relative;
+    width:min(680px, 92vw);
+    padding:36px 28px 30px;
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+    box-shadow:
+      0 10px 30px rgba(0,0,0,.35),
+      inset 0 0 0 1px rgba(255,255,255,.08);
+    backdrop-filter: blur(12px);
+    isolation:isolate;
+  }
+  .card::before{
+    content:"";
+    position:absolute; inset:-2px;
+    border-radius: calc(var(--radius) + 2px);
+    background: conic-gradient(from 0deg,
+      #ff004c, #ff7af0, #7d7aff, #00e5ff, #7cffc7, #ffe600, #ff6b6b, #ff004c);
+    filter: blur(8px);
+    z-index:-1; opacity:.9;
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin{to{transform: rotate(1turn)}}
+
+  /* Header com check animado */
+  .head{
+    display:flex; align-items:center; gap:18px; margin-bottom:8px;
+  }
+  .check{
+    width:64px; height:64px; flex:0 0 auto;
+    filter: drop-shadow(0 6px 18px rgba(0,255,170,.35));
+  }
+  .title{
+    line-height:1.05; margin:0;
+    font-size: clamp(28px, 3.2vw, 42px);
+    font-weight: 800;
+    letter-spacing:.2px;
+    background: linear-gradient(90deg, #fff, #eaffff, #fff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow: 0 0 20px rgba(0,255,200,.18);
+  }
+  .subtitle{
+    margin:6px 0 14px; opacity:.9;
+    font-size: clamp(14px, 1.6vw, 16px);
+  }
+
+  /* Pills de status com animação de hue-rotate (RGB feel) */
+  .pills{
+    display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 22px;
+  }
+  .pill{
+    padding:8px 12px; border-radius: 999px;
+    background: var(--glass);
+    border:1px solid var(--glass-strong);
+    backdrop-filter: blur(8px);
+    font-size:13px;
+    text-transform: uppercase; letter-spacing:.6px;
+    animation: hue 6s linear infinite;
+  }
+  @keyframes hue{ to{ filter: hue-rotate(360deg)} }
+
+  /* CTA */
+  .cta{
+    display:flex; gap:12px; flex-wrap:wrap; margin-top: 10px;
+  }
+  .btn{
+    appearance:none; border:0; cursor:pointer;
+    padding:12px 18px; border-radius:14px;
+    font-weight:700; letter-spacing:.3px;
+    backdrop-filter: blur(8px);
+    transition: transform .15s ease, box-shadow .15s ease;
+    will-change: transform;
+  }
+  .btn-primary{
+    color:#001014;
+    background: linear-gradient(90deg, #7dffea, #00e5ff, #7d7aff);
+    box-shadow: 0 8px 24px rgba(0, 229, 255, .28);
+  }
+  .btn-primary:hover{ transform: translateY(-2px) scale(1.02) }
+  .btn-ghost{
+    color:#fff; background: var(--glass);
+    border:1px solid var(--glass-strong);
+  }
+  .btn-ghost:hover{ transform: translateY(-2px) }
+
+  /* Rodapé micro */
+  .micro{
+    margin-top:18px; opacity:.7; font-size:12px;
+    letter-spacing:.2px;
+  }
+
+  /* SVG check animation */
+  .path{
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 1200ms ease-out forwards 400ms;
+  }
+  @keyframes dash{ to{ stroke-dashoffset: 0 } }
+
+  /* Glow loop no contorno do check */
+  .ring{
+    transform-origin: 50% 50%;
+    animation: ring 2.4s ease-in-out infinite 1.2s;
+    opacity:.8;
+  }
+  @keyframes ring{
+    0%,100%{ filter: drop-shadow(0 0 0 rgba(0,255,200,.0)) }
+    50%{ filter: drop-shadow(0 0 18px rgba(0,255,200,.55)) }
+  }
+
+  /* Confete com gradiente varrendo o card */
+  .sweep{
+    position:absolute; inset:-1px;
+    border-radius: inherit;
+    background: conic-gradient(from 0deg at 50% 50%,
+      transparent 0 20%, rgba(255,255,255,.08) 21% 22%,
+      transparent 23% 44%, rgba(255,255,255,.08) 45% 46%, transparent 47% 100%);
+    mask: radial-gradient(120% 120% at 50% 50%, #000 55%, transparent 60%);
+    animation: sweep 8s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes sweep{ to{ transform: rotate(1turn) } }
+
+  /* Responsivo pequeno */
+  @media (max-width:420px){
+    .subtitle{font-size:13px}
+    .btn{width:100%; text-align:center}
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="particles"></div>
+
+  <main class="wrap" role="main" aria-labelledby="title">
+    <section class="card">
+      <div class="sweep" aria-hidden="true"></div>
+
+      <header class="head">
+        <!-- Check animado -->
+        <svg class="check" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7dffea"/>
+              <stop offset="50%" stop-color="#00e5ff"/>
+              <stop offset="100%" stop-color="#7d7aff"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring" cx="60" cy="60" r="46" fill="none" stroke="url(#g)" stroke-width="8" opacity=".6"/>
+          <path class="path" d="M38 62 L55 78 L85 42" fill="none" stroke="url(#g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <div>
+          <h1 id="title" class="title">Cadastro realizado com sucesso</h1>
+          <p class="subtitle">Missão crítica entregue. Pipeline validado. Usuário habilitado.</p>
+        </div>
+      </header>
+
+      <div class="pills" aria-label="Status do processo">
+        <span class="pill">Status: Aprovado</span>
+        <span class="pill">Protocolo: #CXS-9F2</span>
+        <span class="pill">SLA: T+00:00:03</span>
+        <span class="pill">Canal: Web</span>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="index.html" role="button">Voltar ao início</a>
+        <a class="btn btn-ghost" href="javascript:history.back()" role="button">Revisar dados</a>
+      </div>
+
+      <p class="micro">Operação concluída. Próximo passo: onboarding e ativação de features.</p>
+    </section>
+  </main>
+</body>
+</html>
