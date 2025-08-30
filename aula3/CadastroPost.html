@@ -10,6 +10,7 @@
         <fieldset>
             <legend>Dados Pessoais</legend>
             <ul>
+                <fieldset>
                 <li>
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" name="nome" required maxlength="100">
@@ -37,21 +38,23 @@
                     <label for="masculino">Masculino</label>
                     <input type="radio" id="feminino" name="sexo" value="Feminino">
                     <label for="feminino">Feminino</label>
-                </li>
+                </li>              
                 <br>
                 <li>
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" maxlength="200">
+                    <label for="cor">Cor favorita:</label>
+                    <input type="color" id="cor" name="cor">
                 </li>
                 <br>
+            </fieldset>
+            <fieldset>
                 <li>
                     <label for="cep">CEP:</label>
                     <input type="text" id="cep" name="cep" maxlength="10">
                 </li>
                 <br>
                 <li>
-                    <label for="cor">Cor favorita:</label>
-                    <input type="color" id="cor" name="cor">
+                    <label for="endereco">Endereço:</label>
+                    <input type="text" id="endereco" name="endereco" maxlength="200">
                 </li>
                 <br>
                 <li>
@@ -87,6 +90,7 @@
                         <option value="TO">TO - Tocantins</option>
                     </select>
                 </li>
+            </fieldset>
             </ul>
         </fieldset>
         <br>

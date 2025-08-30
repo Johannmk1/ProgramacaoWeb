@@ -96,16 +96,7 @@
     backdrop-filter: blur(12px);
     isolation:isolate;
   }
-  .card::before{
-    content:"";
-    position:absolute; inset:-2px;
-    border-radius: calc(var(--radius) + 2px);
-    background: conic-gradient(from 0deg,
-      #ff004c, #ff7af0, #7d7aff, #00e5ff, #7cffc7, #ffe600, #ff6b6b, #ff004c);
-    filter: blur(8px);
-    z-index:-1; opacity:.9;
-    animation: spin 6s linear infinite;
-  }
+
   @keyframes spin{to{transform: rotate(1turn)}}
 
   /* Header com check animado */
@@ -220,7 +211,7 @@
 
   <main class="wrap" role="main" aria-labelledby="title">
     <section class="card">
-      <div class="sweep" aria-hidden="true"></div>
+      
 
       <header class="head">
         <!-- Check animado -->
