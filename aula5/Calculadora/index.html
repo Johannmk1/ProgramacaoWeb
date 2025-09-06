@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora JM</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="calculator">
+    <div id="display" class="display result-zero">0</div>
+    <div class="buttons">
+      <button class="function" onclick="clearDisplay()">C</button>
+      <button class="function" onclick="backspace()">⌫</button>
+      <button class="operator" onclick="press('/')">÷</button>
+      <button class="operator" onclick="press('*')">×</button>
+
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button class="operator" onclick="press('-')">−</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button class="operator" onclick="press('+')">+</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button class="zero" onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
