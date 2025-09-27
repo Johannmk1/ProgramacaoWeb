@@ -1,0 +1,30 @@
+<html>
+    <head></head>
+    <body>
+    
+    <table>
+        <tr>
+            <th>Disciplina</th> 
+            <th>Faltas</th>  
+            <th>Média</th> 
+        </tr>
+<?php
+    $tabela = array (array("Matemática", "5", "8.5"),
+                    array("Português", "2", "9"),
+                    array("Geografia". "10", "6"),
+                    array("Educação Física", "2", "8"));
+               
+    foreach ($tabela as $linha_tabela) {
+        $Disciplina = $Linha_tabela[0];
+        $Faltas = $Linha_tabela[1];
+        $Nota = $Linha_tabela[2];
+        
+        echo "<tr>
+                <td>".$Disciplina."</td>
+                <td>".$Faltas."</td>
+                <td>".$Nota."</td>
+            </tr>";
+    }
+?>
+    </body>
+</html>
