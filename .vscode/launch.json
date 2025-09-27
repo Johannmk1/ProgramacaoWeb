@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+    "name": "1 - Iniciar XDebug",
+    "type": "php",
+    "request":"launch",
+    "port":9000
+    },
+    {
+    "name": "2 - Abrir o chrome rodando",
+    "type": "chrome",
+    "request": "launch",
+    "url":
+    
+    "http://localhost:81/programacaoweb${fileBasename}?XDEBUG_SESSION_START=XXXXXX",
+    
+    "webRoot": "${workspaceFolder}"
+    }
+    ]
+    }
