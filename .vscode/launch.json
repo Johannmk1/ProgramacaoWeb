@@ -13,7 +13,7 @@
     "request": "launch",
     "url":
     
-    "http://localhost:81/programacaoweb${fileBasename}?XDEBUG_SESSION_START=XXXXXX",
+    "http://localhost:81/programacaoweb//${fileBasename}?XDEBUG_SESSION_START=XXXXXX",
     
     "webRoot": "${workspaceFolder}"
     }
