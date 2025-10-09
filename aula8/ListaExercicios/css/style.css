@@ -1,0 +1,62 @@
+:root {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
+body {
+  background: #f4f6f9;
+  margin: 0;
+  padding: 40px;
+}
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  padding: 30px;
+}
+h1, h2 {
+  margin-top: 0;
+}
+form {
+  display: grid;
+  gap: 12px;
+}
+label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button {
+  padding: 10px 16px;
+  background: #0077cc;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  background: #005fa3;
+}
+.output {
+  background: #eef5ff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 16px;
+  border-left: 4px solid #0077cc;
+}
+nav a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+nav a:hover {
+  text-decoration: underline;
+}
