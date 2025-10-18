@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Pessoa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="processaPessoa.php" method="POST">
+        <fieldset class="externo">
+            <legend>Cadastro da Pessoa:</legend>
+            <ul>
+                <div class="box azul">
+                    <li>
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required maxlength="100">
+                    </li>
+                    <li>
+                        <label for="sobrenome">Sobrenome:</label>
+                        <input type="text" id="sobrenome" name="sobrenome" required maxlength="100">
+                    </li>
+                </div>
+
+                <div class="box cinza">
+                    <li>
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required>
+                    </li>
+                    <li>
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" name="senha" required>
+                    </li>    
+                </div>
+
+                <div class="box cinza">
+                    <li>
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" name="cidade" maxlength="200">
+                    </li>
+                    <li>
+                        <label for="estado">Estado (UF):</label>
+                        <select id="estado" name="estado" required>
+                            <option value="">Selecione</option>
+                            <option value="AC">AC - Acre</option>
+                            <option value="AL">AL - Alagoas</option>
+                            <option value="AP">AP - Amapá</option>
+                            <option value="AM">AM - Amazonas</option>
+                            <option value="BA">BA - Bahia</option>
+                            <option value="CE">CE - Ceará</option>
+                            <option value="DF">DF - Distrito Federal</option>
+                            <option value="ES">ES - Espírito Santo</option>
+                            <option value="GO">GO - Goiás</option>
+                            <option value="MA">MA - Maranhão</option>
+                            <option value="MT">MT - Mato Grosso</option>
+                            <option value="MS">MS - Mato Grosso do Sul</option>
+                            <option value="MG">MG - Minas Gerais</option>
+                            <option value="PA">PA - Pará</option>
+                            <option value="PB">PB - Paraíba</option>
+                            <option value="PR">PR - Paraná</option>
+                            <option value="PE">PE - Pernambuco</option>
+                            <option value="PI">PI - Piauí</option>
+                            <option value="RJ">RJ - Rio de Janeiro</option>
+                            <option value="RN">RN - Rio Grande do Norte</option>
+                            <option value="RS">RS - Rio Grande do Sul</option>
+                            <option value="RO">RO - Rondônia</option>
+                            <option value="RR">RR - Roraima</option>
+                            <option value="SC">SC - Santa Catarina</option>
+                            <option value="SP">SP - São Paulo</option>
+                            <option value="SE">SE - Sergipe</option>
+                            <option value="TO">TO - Tocantins</option>
+                        </select>
+                    </li>
+                </div>
+            </ul>
+            <input type="submit" name="acao" value="Salvar no Banco">
+            <input type="submit" name="acao" value="Salvar em Arquivo">
+            <input type="reset" value="Limpar">
+        </fieldset>
+    </form>
+
+    <br><a href="listaPessoas.php">Listar Pessoas</a>
+</body>
+</html>
