@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="style.css">
+
 <?php
 include 'funcoes.php';
 
@@ -21,9 +23,9 @@ if ($acao === "Salvar no Banco") {
     pg_close($conn);
 
 } elseif ($acao === "Salvar em Arquivo") {
-    $linha = implode(';', $aDados) . PHP_EOL;
-    file_put_contents('pessoas.txt', $linha, FILE_APPEND);
-    echo "Dados salvos no arquivo pessoas.txt com sucesso!";
+    salvarTxt($aDados);
+    salvarJson($aDados);
+    echo "Dados salvos com sucesso!";
 }
 
 echo '<br><br><a href="cadastro.html">Voltar</a>';
