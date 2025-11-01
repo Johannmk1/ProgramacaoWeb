@@ -2,10 +2,8 @@
 include 'funcoes.php';
 $conn = conectarBanco();
 
-// Sanitiza a entrada de busca
 $busca = filter_input(INPUT_GET, 'busca', FILTER_SANITIZE_STRING);
 
-// Usa consulta parametrizada para evitar SQL Injection
 if (!empty($busca)) {
     $sql = "SELECT * FROM TBPESSOA WHERE PESNOME ILIKE $1";
     $params = ['%' . $busca . '%'];
