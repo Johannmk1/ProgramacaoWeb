@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Avaliações</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="../css/kiosk.css" />
+    </head>
+  <body>
+  <main class="card">
+    <h1>Administração</h1>
+    <p>Gerencie perguntas, setores e dispositivos.</p>
+    <div class="nav">
+      <a href="perguntas.html">Perguntas</a>
+      <a href="setores.html">Setores</a>
+      <a href="dispositivos.html">Dispositivos</a>
+      <a href="usuarios.html">Usuários</a>
+    </div>
+  </main>
+    <div id="adminOverlay" class="overlay" style="display:none;">
+      <div class="modal">
+        <h2>Entrar</h2>
+        <form id="adminLoginForm">
+          <div class="field">
+            <label>Usuário</label>
+            <input id="adminUser" class="input" type="text" autocomplete="username" />
+          </div>
+          <div class="field">
+            <label>Senha</label>
+            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
+          </div>
+          <button class="btn" type="submit">Entrar</button>
+          <p id="adminMsg" class="mensagem"></p>
+        </form>
+        <div class="admin-link">
+          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
+        </div>
+      </div>
+    </div>
+    <script src="js/auth.js" defer></script>
+  </body>
+</html>

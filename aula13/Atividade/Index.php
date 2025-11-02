@@ -70,5 +70,3 @@
     echo $johann->getEnderecoPorCep("89160001")->getEndereco()."<br>";
 
 ?>
-
-<!-- aula13/atividade -->

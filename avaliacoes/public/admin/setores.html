@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Setores</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="../css/kiosk.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Setores</h1>
+      <p><a href="index.html">Voltar</a></p>
+
+      <section>
+        <h2>Cadastrar</h2>
+        <div class="grid-2">
+          <input id="nome" type="text" placeholder="Nome do setor" />
+          <label class="label inline-field">
+            <input id="status" type="checkbox" checked /> Ativo
+          </label>
+        </div>
+        <button id="btnAdd" class="btn mt-10">Adicionar</button>
+        <p id="msg" class="mensagem"></p>
+      </section>
+
+      <section class="mt-20">
+        <h2>Lista</h2>
+        <table>
+          <thead><tr><th>ID</th><th>Nome</th><th>Status</th><th>AÃ§Ãµes</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </section>
+
+      <section class="mt-20">
+        <h2>Perguntas por Setor</h2>
+        <div class="grid-2">
+          <select id="selSetorMap"></select>
+          <button id="btnSalvarMap" class="btn">Salvar Mapeamento</button>
+        </div>
+        <div id="listaPerguntasMap" style="margin-top:10px;"></div>
+        <p id="msgMap" class="mensagem"></p>
+      </section>
+    </main>
+    <div id="adminOverlay" class="overlay" style="display:none;">
+      <div class="modal">
+        <h2>Entrar</h2>
+        <form id="adminLoginForm">
+          <div class="field">
+            <label>Usuário</label>
+            <input id="adminUser" class="input" type="text" autocomplete="username" />
+          </div>
+          <div class="field">
+            <label>Senha</label>
+            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
+          </div>
+          <button class="btn" type="submit">Entrar</button>
+          <p id="adminMsg" class="mensagem"></p>
+        </form>
+        <div class="admin-link">
+          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
+        </div>
+    </div>
+    </div>
+    <script src="js/auth.js" defer></script>
+
+    <script src="js/setores.js" defer></script>
+  </body>
+</html>
+
+

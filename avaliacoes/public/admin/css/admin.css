@@ -1,0 +1,18 @@
+.nav { display:flex; gap:12px; flex-wrap:wrap; }
+.nav a { display:inline-block; padding:10px 14px; background:#0ea5e9; color:#fff; border-radius:8px; text-decoration:none; }
+.card { max-width: 720px; margin: 24px auto; }
+
+table { width:100%; border-collapse: collapse; }
+th, td { padding:8px 10px; border-bottom:1px solid #e5e7eb; }
+.row-actions button { margin-right: 6px; }
+
+.grid-3 { display:grid; grid-template-columns: 1fr 100px 120px; gap:8px; }
+.grid-2 { display:grid; grid-template-columns: 1fr 160px; gap:8px; }
+.grid-4 { display:grid; grid-template-columns: 1fr 1fr 1fr 140px; gap:8px; }
+
+.muted { color:#6b7280; }
+
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+
+.inline-field { display:flex; align-items:center; gap:8px; }
