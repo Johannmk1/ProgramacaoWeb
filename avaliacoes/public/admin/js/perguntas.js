@@ -1,4 +1,4 @@
-const apiPerguntas = '../../api/admin/perguntas.php';
+const apiPerguntas = '../../src/Controllers/AdminController.php?resource=perguntas';
 const tbodyPerg = document.getElementById('tbody');
 const msgPerg = document.getElementById('msg');
 const textoPerg = document.getElementById('texto');
@@ -71,7 +71,7 @@ tbodyPerg.addEventListener('click', (e) => {
   if (act === 'save') {
     const t = tr.querySelector('[data-field="texto"]').textContent.trim();
     const o = Number(tr.querySelector('[data-field="ordem"]').textContent.trim() || '0');
-    fetch(apiPerguntas + '?id=' + id, {
+    fetch(apiPerguntas + '&id=' + id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ texto: t, ordem: o }),
@@ -87,7 +87,7 @@ tbodyPerg.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[3].textContent.includes('Ativa');
-    fetch(apiPerguntas + '?id=' + id, {
+    fetch(apiPerguntas + '&id=' + id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: !current }),
@@ -103,7 +103,7 @@ tbodyPerg.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiPerguntas + '?id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiPerguntas + '&id=' + id + '&hard=1', { method: 'DELETE' })
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {

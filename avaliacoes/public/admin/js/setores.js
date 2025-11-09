@@ -1,5 +1,5 @@
-const apiSetoresAdm = '../../api/admin/setores.php';
-const apiSetorPerguntas = '../../api/admin/setor_perguntas.php';
+const apiSetoresAdm = '../../src/Controllers/AdminController.php?resource=setores';
+const apiSetorPerguntas = '../../src/Controllers/AdminController.php?resource=setor_perguntas';
 const tbodySet = document.getElementById('tbody');
 const msgSet = document.getElementById('msg');
 const nomeSet = document.getElementById('nome');
@@ -71,7 +71,7 @@ tbodySet.addEventListener('click', (e) => {
   const act = btn.dataset.act;
   if (act === 'save') {
     const nom = tr.querySelector('[data-field="nome"]').textContent.trim();
-    fetch(apiSetoresAdm + '?id=' + id, {
+    fetch(apiSetoresAdm + '&id=' + id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome: nom }),
@@ -87,7 +87,7 @@ tbodySet.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[2].textContent.includes('Ativo');
-    fetch(apiSetoresAdm + '?id=' + id, {
+    fetch(apiSetoresAdm + '&id=' + id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: !current }),
@@ -103,7 +103,7 @@ tbodySet.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiSetoresAdm + '?id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiSetoresAdm + '&id=' + id + '&hard=1', { method: 'DELETE' })
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -122,7 +122,7 @@ function loadPerguntasMap() {
   const id = Number(selSetorMap.value);
   if (!id) { listaPerguntasMap.innerHTML = '<p>Selecione um setor.</p>'; return; }
   listaPerguntasMap.innerHTML = '<p>Carregando perguntas...</p>';
-  fetch(`${apiSetorPerguntas}?id_setor=${id}`)
+  fetch(`${apiSetorPerguntas}&id_setor=${id}`)
     .then(r => r.json())
     .then(rows => {
       listaPerguntasMap.innerHTML = rows.map(p => `

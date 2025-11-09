@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function hideOverlay() { if (overlay) overlay.style.display = 'none'; }
 
   function checkAuth() {
-    return fetch('../../api/auth/me.php', { cache: 'no-store', credentials: 'same-origin' })
+    return fetch('../../src/Controllers/AuthController.php?action=me', { cache: 'no-store', credentials: 'same-origin' })
       .then(r => { if (!r.ok) throw new Error('unauth'); return r.json(); })
       .then(() => { hideOverlay(); })
       .catch(() => { showOverlay(); });
@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
   loginForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     msgEl.textContent = '';
-    fetch('../../api/auth/login.php', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: userEl.value.trim(), password: passEl.value }) })
+    fetch('../../src/Controllers/AuthController.php?action=login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: userEl.value.trim(), password: passEl.value }) })
       .then(r=>r.json())
       .then(d=>{ if (d.status==='success') { hideOverlay(); } else { msgEl.textContent = d.message || 'Falha de login'; } })
       .catch(()=>{ msgEl.textContent = 'Erro de rede'; });
   });
 
   logoutBtn?.addEventListener('click', () => {
-    fetch('../../api/auth/logout.php', { credentials: 'same-origin' }).finally(() => showOverlay());
+    fetch('../../src/Controllers/AuthController.php?action=logout', { credentials: 'same-origin' }).finally(() => showOverlay());
   });
 
   checkAuth();

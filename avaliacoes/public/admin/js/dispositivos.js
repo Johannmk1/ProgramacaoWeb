@@ -1,5 +1,5 @@
-const apiDisp = '../../api/admin/dispositivos.php';
-const apiSetAdm = '../../api/admin/setores.php';
+const apiDisp = '../../src/Controllers/AdminController.php?resource=dispositivos';
+const apiSetAdm = '../../src/Controllers/AdminController.php?resource=setores';
 const tbodyDisp = document.getElementById('tbody');
 const msgDisp = document.getElementById('msg');
 const nomeDisp = document.getElementById('nome');
@@ -96,7 +96,7 @@ tbodyDisp.addEventListener('click', (e) => {
     const cod = tr.querySelector('[data-field="codigo"]').textContent.trim();
     const set = tr.querySelector('select[data-field="id_setor"]').value;
     const payload = { nome: nom, codigo: cod, id_setor: set ? Number(set) : null };
-    fetch(apiDisp + '?id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    fetch(apiDisp + '&id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -108,7 +108,7 @@ tbodyDisp.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[4].textContent.includes('Ativo');
-    fetch(apiDisp + '?id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: !current }) })
+    fetch(apiDisp + '&id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: !current }) })
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -120,7 +120,7 @@ tbodyDisp.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiDisp + '?id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiDisp + '&id=' + id + '&hard=1', { method: 'DELETE' })
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {

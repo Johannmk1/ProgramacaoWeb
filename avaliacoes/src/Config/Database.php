@@ -24,6 +24,13 @@ class Database {
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]);
+            try {
+                if ($driver === 'pgsql') {
+                    $this->conn->exec("SET client_encoding TO 'UTF8'");
+                } else {
+                    $this->conn->exec("SET NAMES 'utf8mb4'");
+                }
+            } catch (Throwable $e) {}
         } catch (PDOException $e) {
             http_response_code(500);
             die(json_encode(['status' => 'error', 'message' => 'Erro de conexão ao banco.']));
@@ -32,4 +39,3 @@ class Database {
         return $this->conn;
     }
 }
-

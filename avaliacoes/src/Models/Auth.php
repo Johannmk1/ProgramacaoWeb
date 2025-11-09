@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Usuario.php';
+
 class Auth {
     public static function start(): void {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -18,29 +20,23 @@ class Auth {
 
     public static function login(PDO $pdo, string $username, string $password): bool {
         self::start();
-        $stmt = $pdo->prepare('SELECT id, password_hash, status FROM usuarios WHERE username = ?');
-        $stmt->execute([$username]);
-        $u = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$u || !$u['status']) { return false; }
-        $hash = (string)$u['password_hash'];
+        $u = Usuario::findByUsername($pdo, $username);
+        if (!$u || empty($u['status'])) { return false; }
+
+        $hash = (string)($u['password_hash'] ?? '');
         $info = password_get_info($hash);
         $ok = false;
         if (!empty($info['algo'])) {
             $ok = password_verify($password, $hash);
         } else {
-            $ok = hash_equals($hash, $password);
+            $ok = $hash !== '' && hash_equals($hash, $password);
             if ($ok) {
-                // Migra para hash seguro
-                try {
-                    $new = password_hash($password, PASSWORD_DEFAULT);
-                    $up = $pdo->prepare('UPDATE usuarios SET password_hash = ? WHERE id = ?');
-                    $up->execute([$new, (int)$u['id']]);
-                } catch (Throwable $e) { /* ignore */ }
+                try { Usuario::alterarSenha($pdo, (int)$u['id'], $password); } catch (Throwable $e) { /* ignore */ }
             }
         }
         if (!$ok) { return false; }
         $_SESSION['user_id'] = (int)$u['id'];
-        $_SESSION['username'] = $username;
+        $_SESSION['username'] = (string)($u['username'] ?? $username);
         return true;
     }
 

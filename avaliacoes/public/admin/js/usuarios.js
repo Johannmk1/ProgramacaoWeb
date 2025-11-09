@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const api = '../../api/admin/usuarios.php';
+  const api = '../../src/Controllers/AdminController.php?resource=usuarios';
   const tbody = document.getElementById('tbody');
   const msg = document.getElementById('msg');
   const username = document.getElementById('username');
@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const act = btn.dataset.act;
     if (act === 'save') {
       const user = tr.querySelector('[data-field="username"]').textContent.trim();
-      fetch(`${api}?id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: user }) })
+      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: user }) })
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Atualizado'); load(); } else { flash('Erro ao atualizar', false); } });
     } else if (act === 'toggle') {
       const isActive = tr.children[2].textContent.includes('Ativo');
-      fetch(`${api}?id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: !isActive }) })
+      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: !isActive }) })
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Status alterado'); load(); } else { flash('Erro ao alterar', false); } });
     } else if (act === 'reset') {
       const pwd = prompt('Nova senha para o usuário:');
       if (!pwd) return;
-      fetch(`${api}?id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pwd }) })
+      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pwd }) })
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Senha atualizada'); } else { flash('Erro ao atualizar senha', false); } });
     }
   });

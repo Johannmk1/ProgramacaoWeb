@@ -94,7 +94,7 @@
     if (!el.selectDisp) return;
     el.selectDisp.innerHTML = '<option>Carregando...</option>';
 
-    fetchJSON('../api/dispositivos_publicos.php?ativos=1', { cache: 'no-store' })
+    fetchJSON('../src/Controllers/DispositivoController.php?action=publicos&ativos=1', { cache: 'no-store' })
       .then((rows) => {
         if (!Array.isArray(rows) || rows.length === 0) {
           el.selectDisp.innerHTML = '<option value="">Nenhum dispositivo ativo</option>';
@@ -116,7 +116,7 @@
   // =========================================================
   function loadPerguntas() {
     el.perguntaBox.innerHTML = '<p>Carregando perguntas...</p>';
-    return fetchJSON(`../api/perguntas.php?device=${encodeURIComponent(deviceCode)}`, { cache: 'no-store' })
+    return fetchJSON(`../src/Controllers/AvaliacaoController.php?action=perguntas&device=${encodeURIComponent(deviceCode)}`, { cache: 'no-store' })
       .then((list) => {
         perguntas = Array.isArray(list) ? list : [];
         respostas = {};
@@ -280,7 +280,7 @@
       device: deviceCode || null,
     };
 
-    fetch('../api/salvar_avaliacao.php', {
+    fetch('../src/Controllers/AvaliacaoController.php?action=salvar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -301,7 +301,7 @@
   function loadAdminDevices() {
     if (!adm.sel) return;
     adm.sel.innerHTML = '';
-    fetch('../api/dispositivos_publicos.php?ativos=1', { cache: 'no-store' })
+    fetch('../src/Controllers/DispositivoController.php?action=publicos&ativos=1', { cache: 'no-store' })
       .then(r => r.json())
       .then(rows => {
         adm.sel.innerHTML = (rows || []).map(d =>
@@ -315,7 +315,7 @@
 
   adm.btnLogin?.addEventListener('click', () => {
     if (adm.msg) adm.msg.textContent = '';
-    fetch('../api/auth/login.php', {
+    fetch('../src/Controllers/AuthController.php?action=login', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ username: (adm.user?.value||'').trim(), password: adm.pass?.value || '' })
     })
@@ -339,7 +339,7 @@
   });
 
   adm.btnSair?.addEventListener('click', () => {
-    fetch('../api/auth/logout.php').finally(()=>{
+    fetch('../src/Controllers/AuthController.php?action=logout').finally(()=>{
       if (adm.login) adm.login.style.display='block';
       if (adm.panel) adm.panel.style.display='none';
       if (adm.overlay) adm.overlay.style.display='none';

@@ -8,11 +8,7 @@
         <link rel="stylesheet" href="css/kiosk.css">
     </head>
     <body>
-        <header class="app-header">
-            <img id="bannerImage" class="banner" alt="Banner" style="display:none;" />
-            <h1 id="titulo">Como foi seu atendimento?</h1>
-            <p class="sub">Sua opinião nos ajuda a melhorar continuamente.</p>
-        </header>
+        
 
         <main>
             <section id="telaSelecaoDispositivo" class="card" style="display:none;">
@@ -26,9 +22,17 @@
             </section>
 
             <section id="telaInicio" class="card" style="display:none;">
+                <header class="app-header">
+                    <img id="bannerImage" class="banner" alt="Banner" style="display:none;" />
+                    <h1 id="titulo">Como foi seu atendimento?</h1>
+                    <p class="sub">Sua opinião nos ajuda a melhorar continuamente.</p>
+                </header>
+
                 <h2>Pronto para começar?</h2>
                 <p>Toque no botão abaixo para iniciar sua avaliação.</p>
                 <button id="btnComecar" class="btn">Começar avaliação</button>
+
+                <p class="anonimo">Sua avaliação é anônima. Não coletamos dados pessoais.</p>
             </section>
 
             <form id="formAvaliacao" class="card nps-card" style="display:none;">
@@ -44,14 +48,16 @@
                 
             </form>
 
-            <div id="overlayPrompt" class="overlay" style="display:none;"><section id="telaContinuar" class="modal" style="display:block;">
-                <h2>Deseja continuar respondendo?</h2>
-                <p>Detectamos inatividade. A avaliação será cancelada em <span id="countdown">15</span>s.</p>
-                <div>
-                    <button id="btnContinuar" class="btn">Continuar</button>
-                    <button id="btnCancelar" class="btn" style="background:#dc2626;">Cancelar</button>
-                </div>
-            </section></div>
+            <div id="overlayPrompt" class="overlay" style="display:none;">
+                <section id="telaContinuar" class="modal" style="display:block;">
+                    <h2>Deseja continuar respondendo?</h2>
+                    <p>Detectamos inatividade. A avaliação será cancelada em <span id="countdown">15</span>s.</p>
+                    <div>
+                        <button id="btnContinuar" class="btn">Continuar</button>
+                        <button id="btnCancelar" class="btn" style="background:#dc2626;">Cancelar</button>
+                    </div>
+                </section>
+             </div>
 
                     <div id="adminOverlay" class="overlay" style="display:none;">
           <section id="telaAdmin" class="modal">
@@ -75,7 +81,6 @@
         </div>
             <button id="btnAdmin" aria-label="Admin" class="fab-gear">⚙️</button>        <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-            <p class="anonimo">Sua avaliação é anônima. Não coletamos dados pessoais.</p>
         </main>
 
         <script src="js/app.js"></script>
