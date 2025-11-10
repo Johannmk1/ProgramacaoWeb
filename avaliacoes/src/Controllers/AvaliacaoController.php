@@ -21,7 +21,6 @@ class AvaliacaoController {
         return Avaliacao::salvarLote($this->pdo, $respostas, $feedback, $id_dispositivo);
     }
 }
-// Handler HTTP para salvar avaliação (POST JSON)
 function handle_salvar_avaliacao(): void {
     http_json();
     require_method('POST');
@@ -31,31 +30,28 @@ function handle_salvar_avaliacao(): void {
     $feedback = $payload['feedback'] ?? null;
     $device = $payload['device'] ?? ($_GET['device'] ?? null);
 
-    if (!is_array($respostas) || empty($respostas)) { json_error(400, 'Dados inválidos'); return; }
+    if (!is_array($respostas) || empty($respostas)) { json_error(400, 'Dados invǭlidos'); return; }
 
     $db = (new Database())->connect();
     $controller = new AvaliacaoController($db);
 
     $ok = $controller->salvarAvaliacao($respostas, $feedback, $device ? (string)$device : null);
-    if ($ok) { json_ok(['status' => 'success', 'message' => 'Avaliação enviada com sucesso']); }
+    if ($ok) { json_ok(['status' => 'success']); }
     else { json_error(500, 'Falha ao salvar avaliação'); }
 }
 
-// Execução direta (?action=salvar)
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     $action = $_GET['action'] ?? '';
     if ($action === 'salvar') { handle_salvar_avaliacao(); }
     elseif ($action === 'perguntas') { handle_listar_perguntas(); }
 }
 
-// Handler HTTP para listar perguntas (GET, opcional ?device=CODIGO)
 function handle_listar_perguntas(): void {
     http_json();
 
     $db = (new Database())->connect();
     $pdo = $db;
 
-    // Garante perguntas de seed, se necessário
     try { Pergunta::seedIfEmpty($pdo); } catch (Throwable $e) {}
 
     $device = isset($_GET['device']) ? trim((string)$_GET['device']) : '';
@@ -70,10 +66,10 @@ function handle_listar_perguntas(): void {
             }
     }
 
-    // Fallback: todas as perguntas ativas
     $controller = new AvaliacaoController($db);
     foreach ($controller->getPerguntas() as $p) {
         $result[] = ['id' => $p->getId(), 'texto' => $p->getTexto()];
     }
     json_ok($result);
 }
+
