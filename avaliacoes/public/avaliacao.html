@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0ea5e9">
+    <title>Avaliação</title>
+    <script src="js/theme-preload.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/kiosk.css">
+  </head>
+  <body>
+    <main>
+      <section class="card avaliacao-card">
+        <header class="app-header">
+          <h1>Responda à avaliação</h1>
+          <p class="sub" id="introTexto">Escolha a nota que melhor representa sua experiência.</p>
+        </header>
+        <form id="formAvaliacao" class="nps-card">
+          <div id="perguntaAtual" class="pergunta"></div>
+          <div class="toolbar nps-toolbar">
+            <small id="progresso"></small>
+          </div>
+          <div id="feedbackWrapper" class="feedback-block hidden">
+            <label for="feedback" class="label">Feedback adicional (opcional)</label>
+            <textarea id="feedback" class="textarea" placeholder="Escreva aqui seu comentário..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button id="btnCancelar" type="button" class="btn ghost">Cancelar</button>
+            <button id="btnEnviar" class="btn hidden" type="submit">Enviar Avaliação</button>
+          </div>
+        </form>
+      </section>
+
+      <div id="overlayInatividade" class="overlay" style="display:none;">
+        <section class="modal">
+          <h2>Deseja continuar respondendo?</h2>
+          <p>Detectamos inatividade. A avaliação será cancelada em <span id="countdown">15</span>s.</p>
+          <div style="display:flex; gap:12px; justify-content:center;">
+            <button id="btnContinuar" class="btn">Continuar</button>
+            <button id="btnCancelarPrompt" class="btn danger">Cancelar</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="js/app.js"></script>
+    <script src="js/avaliacao.js"></script>
+  </body>
+</html>

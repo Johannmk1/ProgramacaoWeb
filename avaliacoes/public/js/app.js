@@ -1,35 +1,72 @@
 ﻿(function () {
   const BASE = '../src/Controllers';
 
-  function contrastColor(hex) {
-    if (!hex) return '#0f172a';
+  function normalizeHex(hex) {
+    if (!hex) return null;
     let c = hex.replace('#', '');
     if (c.length === 3) c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
-    if (c.length !== 6) return '#0f172a';
-    const r = parseInt(c.substring(0, 2), 16) / 255;
-    const g = parseInt(c.substring(2, 4), 16) / 255;
-    const b = parseInt(c.substring(4, 6), 16) / 255;
+    return c.length === 6 ? c : null;
+  }
+
+  function contrastColor(hex) {
+    const normalized = normalizeHex(hex);
+    if (!normalized) return '#0f172a';
+    const r = parseInt(normalized.substring(0, 2), 16) / 255;
+    const g = parseInt(normalized.substring(2, 4), 16) / 255;
+    const b = parseInt(normalized.substring(4, 6), 16) / 255;
     const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
     return luma > 0.5 ? '#0f172a' : '#ffffff';
+  }
+
+  function mixColor(hexA, hexB, amount = 0.5) {
+    const normA = normalizeHex(hexA);
+    const normB = normalizeHex(hexB);
+    if (!normA || !normB) return hexA || hexB || '#ffffff';
+    const w = Math.min(Math.max(amount, 0), 1);
+    const rA = parseInt(normA.substring(0, 2), 16);
+    const gA = parseInt(normA.substring(2, 4), 16);
+    const bA = parseInt(normA.substring(4, 6), 16);
+    const rB = parseInt(normB.substring(0, 2), 16);
+    const gB = parseInt(normB.substring(2, 4), 16);
+    const bB = parseInt(normB.substring(4, 6), 16);
+    const r = Math.round(rA * w + rB * (1 - w));
+    const g = Math.round(gA * w + gB * (1 - w));
+    const b = Math.round(bA * w + bB * (1 - w));
+    const toHex = (value) => {
+      const s = value.toString(16);
+      return s.length === 1 ? `0${s}` : s;
+    };
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
   const App = {
     theme: {},
     _themePromise: null,
 
+    normalizeTheme(theme = {}) {
+      return {
+        primaryColor: theme.primaryColor || '#2563eb',
+        secondaryColor: theme.secondaryColor || '#0ea5e9',
+        tertiaryColor: theme.tertiaryColor || '#f7f8fa',
+        cardMaxWidth: theme.cardMaxWidth || '820px',
+      };
+    },
+
     loadTheme() {
       if (this._themePromise) return this._themePromise;
-      this._themePromise = fetch('config/theme.json', { cache: 'no-store' })
+      const applyAndStore = (theme) => {
+        this.theme = this.normalizeTheme(theme);
+        this.applyTheme();
+        return this.theme;
+      };
+      if (window.__PRELOADED_THEME) {
+        this._themePromise = Promise.resolve(applyAndStore(window.__PRELOADED_THEME));
+        return this._themePromise;
+      }
+      const cacheBust = window.__THEME_CACHE_BUST || Date.now();
+      this._themePromise = fetch(`config/theme.json?cb=${cacheBust}`, { cache: 'no-store' })
         .then((res) => (res.ok ? res.json() : {}))
         .catch(() => ({}))
-        .then((theme) => {
-          this.theme = {
-            primaryColor: theme.primaryColor || '#2563eb',
-            secondaryColor: theme.secondaryColor || '#0ea5e9',
-            tertiaryColor: theme.tertiaryColor || '#f7f8fa',
-            cardMaxWidth: theme.cardMaxWidth || '820px',
-          };
-          this.applyTheme();
-        });
+        .then(applyAndStore);
       return this._themePromise;
     },
 
@@ -64,6 +101,14 @@
       setVar('--color-tertiary', tertiary);
       setVar('--color-tertiary-contrast', tertiaryContrast);
       setVar('--color-title', tertiaryContrast);
+      const feedbackBg = mixColor(secondary, '#ffffff', 0.18);
+      const feedbackBorder = mixColor(secondary, '#ffffff', 0.55);
+      const feedbackPlaceholder = mixColor(secondary, '#111827', 0.65);
+      const feedbackText = contrastColor(feedbackBg);
+      setVar('--feedback-bg', feedbackBg);
+      setVar('--feedback-border', feedbackBorder);
+      setVar('--feedback-placeholder', feedbackPlaceholder);
+      setVar('--feedback-text', feedbackText);
     },
 
     getTheme() { return this.theme; },

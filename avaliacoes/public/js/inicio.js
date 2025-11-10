@@ -10,6 +10,7 @@ async function init() {
   const btnUsar = document.getElementById('btnUsarDispositivo');
   const msg = document.getElementById('mensagemDispositivo');
   const btnComecar = document.getElementById('btnComecar');
+  const adminLink = document.getElementById('adminLink');
 
   let devicesLoaded = false;
 
@@ -61,5 +62,13 @@ async function init() {
     setTimeout(() => { msg.textContent = ''; }, 1600);
     selector.style.display = 'none';
     window.location.href = 'avaliacao.html';
+  });
+
+  adminLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const ret = `${window.location.pathname}${window.location.search || ''}`;
+    const url = new URL('admin.html', window.location.href);
+    url.searchParams.set('from', ret);
+    window.location.href = url.toString();
   });
 }

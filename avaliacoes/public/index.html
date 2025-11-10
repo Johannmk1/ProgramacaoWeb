@@ -1,99 +1,37 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Avaliação de Serviços</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/kiosk.css">
-    </head>
-    <body>
-        
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Avaliação de Serviços</title>
+    <script src="js/theme-preload.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/kiosk.css">
+  </head>
+  <body>
+    <main>
+      <section class="card" id="inicioCard">
+        <header class="app-header">
+          <h1>Como foi seu atendimento?</h1>
+          <p class="sub">Sua opinião nos ajuda a melhorar continuamente.</p>
+        </header>
+        <h2>Pronto para começar?</h2>
+        <button id="btnComecar" class="btn">Começar avaliação</button>
+        <p class="anonimo">Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</p>
 
-        <main>
-            <section id="telaSelecaoDispositivo" class="card" style="display:none;">
-                <h2>Selecione o dispositivo</h2>
-                <p>Escolha qual totem este navegador representa.</p>
-                <div>
-                    <select id="selectDispositivo"></select>
-                    <button id="btnUsarDispositivo" class="btn">Usar este dispositivo</button>
-                </div>
-                <p class="mensagem" id="msgDispositivo"></p>
-            </section>
-
-            <section id="telaInicio" class="card" style="display:none;">
-                <header class="app-header">
-                    <img id="bannerImage" class="banner" alt="Banner" style="display:none;" />
-                    <h1 id="titulo">Como foi seu atendimento?</h1>
-                    <p class="sub">Sua opinião nos ajuda a melhorar continuamente.</p>
-                </header>
-
-                <h2>Pronto para começar?</h2>
-                <p>Toque no botão abaixo para iniciar sua avaliação.</p>
-                <button id="btnComecar" class="btn">Começar avaliação</button>
-
-                <p class="anonimo">Sua avaliação é anônima. Não coletamos dados pessoais.</p>
-            </section>
-
-            <form id="formAvaliacao" class="card nps-card" style="display:none;">
-                <div id="perguntaAtual" class="pergunta"></div>
-                <div class="toolbar nps-toolbar">
-                    <small id="progresso"></small>
-                    <button id="btnCancelarAvaliacao" type="button" class="btn" >Cancelar</button>
-                </div>
-                <label for="feedback" id="feedbackLabel" class="label hidden" style="margin-top:10px;">Feedback adicional (opcional)</label>
-                <textarea id="feedback" class="textarea hidden" placeholder="Escreva aqui seu comentário..."></textarea>
-
-                <button id="btnEnviar" class="btn hidden" type="submit" style="margin-top:10px;">Enviar Avaliação</button>
-                
-            </form>
-
-            <div id="overlayPrompt" class="overlay" style="display:none;">
-                <section id="telaContinuar" class="modal" style="display:block;">
-                    <h2>Deseja continuar respondendo?</h2>
-                    <p>Detectamos inatividade. A avaliação será cancelada em <span id="countdown">15</span>s.</p>
-                    <div>
-                        <button id="btnContinuar" class="btn">Continuar</button>
-                        <button id="btnCancelar" class="btn" style="background:#dc2626;">Cancelar</button>
-                    </div>
-                </section>
-             </div>
-
-                    <div id="adminOverlay" class="overlay" style="display:none;">
-          <section id="telaAdmin" class="modal">
-            <h2>Área Administrativa</h2>
-            <div id="adminLogin">
-              <p>Entre com suas credenciais</p>
-              <input id="admUser" type="text" placeholder="Usuário" />
-              <input id="admPass" type="password" placeholder="Senha" />
-              <button id="btnAdmLogin" class="btn">Entrar</button>
-              <p id="admMsg" class="mensagem"></p>
-            </div>
-            <div id="adminPanel" style="display:none;">
-              <h3>Dispositivo</h3>
-              <select id="admSelectDisp"></select>
-              <button id="btnAdmSalvarDisp" class="btn">Salvar</button>
-              <button id="btnAdmSair" class="btn">Sair</button>
-              <p id="admPanelMsg" class="mensagem"></p>
-              <p class="admin-link" style="margin-top:10px;"><a href="admin/index.html" target="_blank">Abrir painel completo</a></p>
-            </div>
-          </section>
+        <div id="seletorDispositivo" style="display:none; margin-top:16px; align-items:center; gap:8px; flex-wrap:wrap;">
+          <select id="selectDispositivo"></select>
+          <button id="btnUsarDispositivo" class="btn">Usar este dispositivo</button>
+          <p class="mensagem" id="mensagemDispositivo"></p>
         </div>
-            <button id="btnAdmin" aria-label="Admin" class="fab-gear">⚙️</button>        <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-        </main>
-
-        <script src="js/app.js"></script>
-    </body>
- </html>
-
-
-
-
-
-
-
-
-
-
-
+      </section>
+    </main>
+    <a id="adminLink" href="admin.html" aria-label="Admin" class="fab-gear">⚙</a>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="js/app.js"></script>
+    <script src="js/inicio.js"></script>
+  </body>
+</html>

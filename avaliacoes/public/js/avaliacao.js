@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
   initAvaliacao();
 });
 
@@ -17,16 +17,66 @@ async function initAvaliacao() {
   const form = document.getElementById('formAvaliacao');
   const box = document.getElementById('perguntaAtual');
   const progresso = document.getElementById('progresso');
-  const feedbackLabel = document.getElementById('feedbackLabel');
   const feedback = document.getElementById('feedback');
+  const feedbackWrapper = document.getElementById('feedbackWrapper');
   const btnEnviar = document.getElementById('btnEnviar');
   const btnCancelar = document.getElementById('btnCancelar');
+  const introTexto = document.getElementById('introTexto');
+  const overlay = document.getElementById('overlayInatividade');
+  const btnContinuar = document.getElementById('btnContinuar');
+  const btnCancelarPrompt = document.getElementById('btnCancelarPrompt');
+  const countdownEl = document.getElementById('countdown');
 
   let perguntas = [];
   let respostas = {};
   let idx = 0;
+  let idleTimer = null;
+  let promptTimer = null;
+
+  const cleanupTimers = () => {
+    clearTimeout(idleTimer);
+    clearInterval(promptTimer);
+    promptTimer = null;
+  };
+
+  const showPrompt = () => {
+    if (!overlay) return;
+    overlay.style.display = 'flex';
+    let remaining = 15;
+    if (countdownEl) countdownEl.textContent = String(remaining);
+    clearInterval(promptTimer);
+    promptTimer = setInterval(() => {
+      remaining--;
+      if (countdownEl) countdownEl.textContent = String(remaining);
+      if (remaining <= 0) {
+        cleanupTimers();
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+  };
+
+  const resetIdle = () => {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(showPrompt, 60000);
+  };
+
+  const hidePrompt = () => {
+    if (overlay) overlay.style.display = 'none';
+    resetIdle();
+  };
+
+  document.addEventListener('click', resetIdle, { passive: true });
+  document.addEventListener('keydown', resetIdle, { passive: true });
+  document.addEventListener('touchstart', resetIdle, { passive: true });
+  btnContinuar?.addEventListener('click', hidePrompt);
+  btnCancelarPrompt?.addEventListener('click', () => {
+    cleanupTimers();
+    window.location.href = 'index.html';
+  });
+  resetIdle();
 
   btnCancelar?.addEventListener('click', () => {
+    cleanupTimers();
     window.location.href = 'index.html';
   });
 
@@ -39,30 +89,63 @@ async function initAvaliacao() {
     }
     const body = {
       respostas,
-      feedback: (feedback.value.trim() || null),
+      feedback: feedback ? (feedback.value.trim() || null) : null,
       device,
     };
     try {
       const resp = await App.api.salvarAvaliacao(body);
       const ok = resp && resp.status === 'success';
       App.toast(resp.message || 'Avaliação enviada.', ok ? 'success' : 'error');
-      if (ok) window.location.href = 'obrigado.html';
+      if (ok) {
+        cleanupTimers();
+        window.location.href = 'obrigado.html';
+      }
     } catch (err) {
       App.toast('Falha ao enviar sua avaliação.', 'error');
     }
   });
 
+  const totalSteps = () => (perguntas.length || 0) + 1; // inclui etapa de feedback
+
+  const updateProgress = (currentStep) => {
+    if (!progresso) return;
+    const total = totalSteps();
+    const bounded = Math.min(Math.max(currentStep, 1), total);
+    progresso.textContent = `${bounded}/${total}`;
+  };
+
+  const showSubmitArea = () => {
+    feedbackWrapper?.classList.remove('hidden');
+    btnEnviar?.classList.remove('hidden');
+  };
+
+  const hideFeedbackArea = () => {
+    feedbackWrapper?.classList.add('hidden');
+    btnEnviar?.classList.add('hidden');
+  };
+
+  const renderFeedbackStep = () => {
+    updateProgress(totalSteps());
+    introTexto?.classList.add('hidden');
+    if (box) {
+      box.innerHTML = '';
+      if (feedbackWrapper) {
+        box.appendChild(feedbackWrapper);
+      } else {
+        box.innerHTML = '<p>Compartilhe um feedback adicional (opcional) antes de enviar.</p>';
+      }
+    }
+    showSubmitArea();
+  };
+
   const render = () => {
+    introTexto?.classList.remove('hidden');
     if (!perguntas.length) {
-      box.innerHTML = '<p>Nenhuma pergunta disponível.</p>';
+      renderFeedbackStep();
       return;
     }
     if (idx >= perguntas.length) {
-      box.innerHTML = '<p>Todas as perguntas foram respondidas. Você pode enviar a avaliação.</p>';
-      if (progresso) progresso.textContent = `${perguntas.length}/${perguntas.length}`;
-      feedbackLabel.classList.remove('hidden');
-      feedback.classList.remove('hidden');
-      btnEnviar.classList.remove('hidden');
+      renderFeedbackStep();
       return;
     }
     const pergunta = perguntas[idx];
@@ -81,22 +164,27 @@ async function initAvaliacao() {
       btn.addEventListener('click', () => {
         respostas[pergunta.id] = score;
         idx++;
+        resetIdle();
         render();
       });
       grid.appendChild(btn);
     }
     box.appendChild(label);
     box.appendChild(grid);
-    if (progresso) progresso.textContent = `${idx + 1}/${perguntas.length}`;
+    updateProgress(idx + 1);
+    hideFeedbackArea();
   };
 
   box.innerHTML = '<p>Carregando perguntas...</p>';
+
   try {
     const list = await App.api.perguntas(device);
     perguntas = Array.isArray(list) ? list : [];
+    idx = 0;
+    respostas = {};
+    hideFeedbackArea();
     render();
   } catch (err) {
     box.innerHTML = '<p>Erro ao carregar perguntas.</p>';
   }
 }
-
