@@ -8,13 +8,22 @@
     <link rel="stylesheet" href="css/admin.css" />
     <link rel="stylesheet" href="../css/kiosk.css" />
   </head>
-  <body>
-    <main class="card">
-      <h1>Perguntas</h1>
-      <p><a href="index.html">Voltar</a></p>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="admin-breadcrumb">Administração • Perguntas</p>
+          <h1>Perguntas</h1>
+          <p class="admin-helper">Cadastre novas perguntas e organize a ordem exibida no totem.</p>
+        </div>
+        <a class="admin-back" href="index.html">Voltar</a>
+      </header>
 
-      <section>
-        <h2>Cadastrar</h2>
+      <section class="admin-panel form-panel">
+        <div>
+          <h2>Nova pergunta</h2>
+          <p class="admin-helper">Preencha os campos abaixo e clique em adicionar.</p>
+        </div>
         <div class="grid-3">
           <input id="texto" type="text" placeholder="Texto da pergunta" />
           <input id="ordem" type="number" min="0" step="1" placeholder="Ordem" />
@@ -26,12 +35,17 @@
         <p id="msg" class="mensagem"></p>
       </section>
 
-      <section class="mt-20">
-        <h2>Lista</h2>
-        <table>
-          <thead><tr><th>ID</th><th>Texto</th><th>Ordem</th><th>Status</th><th>AÃ§Ãµes</th></tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
+      <section class="admin-panel">
+        <div>
+          <h2>Lista de perguntas</h2>
+          <p class="admin-helper">Edite diretamente na tabela, altere o status ou exclua.</p>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>ID</th><th>Texto</th><th>Ordem</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
       </section>
     </main>
     <div id="adminOverlay" class="overlay" style="display:none;">
@@ -59,7 +73,3 @@
     <script src="js/perguntas.js" defer></script>
   </body>
 </html>
-
-
-
-

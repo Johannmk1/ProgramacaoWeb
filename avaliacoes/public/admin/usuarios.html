@@ -8,13 +8,22 @@
   <link rel="stylesheet" href="css/admin.css" />
   <link rel="stylesheet" href="../css/kiosk.css" />
 </head>
-<body>
-  <main class="card">
-    <h1>Usuários</h1>
-    <p><a href="index.html">Voltar</a></p>
+<body class="admin-body">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="admin-breadcrumb">Administração • Usuários</p>
+        <h1>Usuários</h1>
+        <p class="admin-helper">Controle quem tem acesso à área administrativa.</p>
+      </div>
+      <a class="admin-back" href="index.html">Voltar</a>
+    </header>
 
-    <section>
-      <h2>Cadastrar</h2>
+    <section class="admin-panel form-panel">
+      <div>
+        <h2>Novo usuário</h2>
+        <p class="admin-helper">Informe usuário, senha temporária e status.</p>
+      </div>
       <div class="grid-2">
         <input id="username" type="text" placeholder="Usuário" />
         <input id="password" type="password" placeholder="Senha" />
@@ -26,12 +35,17 @@
       <p id="msg" class="mensagem"></p>
     </section>
 
-    <section class="mt-20">
-      <h2>Lista</h2>
-      <table>
-        <thead><tr><th>ID</th><th>Usuário</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
-        <tbody id="tbody"></tbody>
-      </table>
+    <section class="admin-panel">
+      <div>
+        <h2>Lista de usuários</h2>
+        <p class="admin-helper">Atualize o status ou redefina credenciais rapidamente.</p>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>ID</th><th>Usuário</th><th>Status</th><th>Criado em</th><th>Ações</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
     </section>
   </main>
   
@@ -60,4 +74,3 @@
   <script src="js/usuarios.js" defer></script>
 </body>
 </html>
-

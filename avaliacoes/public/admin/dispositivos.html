@@ -8,16 +8,25 @@
   <link rel="stylesheet" href="css/admin.css" />
   <link rel="stylesheet" href="../css/kiosk.css" />
 </head>
-<body>
-  <main class="card">
-    <h1>Dispositivos</h1>
-    <p><a href="index.html">Voltar</a></p>
+<body class="admin-body">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="admin-breadcrumb">Administração • Dispositivos</p>
+        <h1>Dispositivos</h1>
+        <p class="admin-helper">Registre totens e associe cada um ao setor correto.</p>
+      </div>
+      <a class="admin-back" href="index.html">Voltar</a>
+    </header>
 
-    <section>
-      <h2>Cadastrar</h2>
+    <section class="admin-panel form-panel">
+      <div>
+        <h2>Novo dispositivo</h2>
+        <p class="admin-helper">Defina um nome amigável, código único e o setor vinculado.</p>
+      </div>
       <div class="grid-4">
         <input id="nome" type="text" placeholder="Nome" />
-        <input id="codigo" type="text" placeholder="CÃ³digo Ãºnico" />
+        <input id="codigo" type="text" placeholder="Código único" />
         <select id="id_setor"></select>
         <label class="label inline-field">
           <input id="status" type="checkbox" checked /> Ativo
@@ -27,12 +36,17 @@
       <p id="msg" class="mensagem"></p>
     </section>
 
-    <section class="mt-20">
-      <h2>Lista</h2>
-      <table>
-        <thead><tr><th>ID</th><th>Nome</th><th>CÃ³digo</th><th>Setor</th><th>Status</th><th>AÃ§Ãµes</th></tr></thead>
-        <tbody id="tbody"></tbody>
-      </table>
+    <section class="admin-panel">
+      <div>
+        <h2>Lista de dispositivos</h2>
+        <p class="admin-helper">Edite qualquer campo diretamente na tabela ou ajuste o status.</p>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>ID</th><th>Nome</th><th>Código</th><th>Setor</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
     </section>
   </main>
   <div id="adminOverlay" class="overlay" style="display:none;">
@@ -60,7 +74,3 @@
   <script src="js/dispositivos.js" defer></script>
 </body>
 </html>
-
-
-
-
