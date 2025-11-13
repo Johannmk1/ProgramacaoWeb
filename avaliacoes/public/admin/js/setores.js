@@ -1,5 +1,6 @@
 const apiSetoresAdm = '../../src/Controllers/AdminController.php?resource=setores';
 const apiSetorPerguntas = '../../src/Controllers/AdminController.php?resource=setor_perguntas';
+const withCreds = (options = {}) => ({ credentials: 'same-origin', ...options });
 const tbodySet = document.getElementById('tbody');
 const msgSet = document.getElementById('msg');
 const nomeSet = document.getElementById('nome');
@@ -15,7 +16,7 @@ function flashSet(m, ok = true) {
 }
 
 function loadSetoresAdm() {
-  fetch(apiSetoresAdm)
+  fetch(apiSetoresAdm, withCreds())
     .then((r) => r.json())
     .then((rows) => {
       tbodySet.innerHTML = '';
@@ -45,11 +46,11 @@ function loadSetoresAdm() {
 
 document.getElementById('btnAdd').addEventListener('click', () => {
   const body = { nome: nomeSet.value.trim(), status: statusSet.checked };
-  fetch(apiSetoresAdm, {
+  fetch(apiSetoresAdm, withCreds({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  })
+  }))
     .then((r) => r.json())
     .then((d) => {
       if (d.status === 'success') {
@@ -71,11 +72,11 @@ tbodySet.addEventListener('click', (e) => {
   const act = btn.dataset.act;
   if (act === 'save') {
     const nom = tr.querySelector('[data-field="nome"]').textContent.trim();
-    fetch(apiSetoresAdm + '&id=' + id, {
+    fetch(apiSetoresAdm + '&id=' + id, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome: nom }),
-    })
+    }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -87,11 +88,11 @@ tbodySet.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[2].textContent.includes('Ativo');
-    fetch(apiSetoresAdm + '&id=' + id, {
+    fetch(apiSetoresAdm + '&id=' + id, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: !current }),
-    })
+    }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -103,7 +104,7 @@ tbodySet.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiSetoresAdm + '&id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiSetoresAdm + '&id=' + id + '&hard=1', withCreds({ method: 'DELETE' }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -122,7 +123,7 @@ function loadPerguntasMap() {
   const id = Number(selSetorMap.value);
   if (!id) { listaPerguntasMap.innerHTML = '<p>Selecione um setor.</p>'; return; }
   listaPerguntasMap.innerHTML = '<p>Carregando perguntas...</p>';
-  fetch(`${apiSetorPerguntas}&id_setor=${id}`)
+  fetch(`${apiSetorPerguntas}&id_setor=${id}`, withCreds())
     .then(r => r.json())
     .then(rows => {
       listaPerguntasMap.innerHTML = rows.map(p => `
@@ -140,10 +141,10 @@ selSetorMap?.addEventListener('change', loadPerguntasMap);
 document.getElementById('btnSalvarMap')?.addEventListener('click', () => {
   const id = Number(selSetorMap.value);
   const ids = Array.from(listaPerguntasMap.querySelectorAll('input[type="checkbox"]:checked')).map(i => Number(i.value));
-  fetch(apiSetorPerguntas, {
+  fetch(apiSetorPerguntas, withCreds({
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ id_setor: id, ids_perguntas: ids })
-  })
+  }))
     .then(r=>r.json())
     .then(d=>{ msgMap.textContent = d.status==='success' ? 'Mapeamento salvo' : 'Erro ao salvar'; setTimeout(()=>msgMap.textContent='',2500); })
     .catch(()=>{ msgMap.textContent='Erro ao salvar'; setTimeout(()=>msgMap.textContent='',2500); });

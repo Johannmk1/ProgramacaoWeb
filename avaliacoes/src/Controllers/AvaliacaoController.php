@@ -60,7 +60,9 @@ function handle_listar_perguntas(): void {
     if ($device !== '') {
         $rows = Pergunta::listarPorDispositivo($pdo, $device);
             if (!empty($rows)) {
-                foreach ($rows as $r) { $result[] = ['id' => (int)$r['id'], 'texto' => (string)$r['texto']]; }
+                foreach ($rows as $r) { 
+                    $result[] = ['id' => (int)$r['id'], 'texto' => (string)$r['texto']]; 
+                }
                 json_ok($result);
                 return;
             }

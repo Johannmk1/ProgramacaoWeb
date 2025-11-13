@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const api = '../../src/Controllers/AdminController.php?resource=usuarios';
+  const withCreds = (options = {}) => ({ credentials: 'same-origin', ...options });
   const tbody = document.getElementById('tbody');
   const msg = document.getElementById('msg');
   const username = document.getElementById('username');
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function load() {
-    fetch(api, { cache: 'no-store' })
+    fetch(api, withCreds({ cache: 'no-store' }))
       .then(r => r.json())
       .then(rows => {
         tbody.innerHTML = '';
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       status: !!ativo.checked,
     };
     if (!body.username || !body.password) { flash('Usuário e senha são obrigatórios', false); return; }
-    fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    fetch(api, withCreds({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }))
       .then(r => r.json())
       .then(d => { if (d.status === 'success') { flash('Criado com sucesso'); username.value=''; password.value=''; ativo.checked=true; load(); } else { flash('Erro ao criar', false); } })
       .catch(() => flash('Erro ao criar', false));
@@ -55,20 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const act = btn.dataset.act;
     if (act === 'save') {
       const user = tr.querySelector('[data-field="username"]').textContent.trim();
-      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: user }) })
+      fetch(`${api}&id=${id}`, withCreds({ method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: user }) }))
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Atualizado'); load(); } else { flash('Erro ao atualizar', false); } });
     } else if (act === 'toggle') {
       const isActive = tr.children[2].textContent.includes('Ativo');
-      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: !isActive }) })
+      fetch(`${api}&id=${id}`, withCreds({ method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status: !isActive }) }))
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Status alterado'); load(); } else { flash('Erro ao alterar', false); } });
     } else if (act === 'reset') {
       const pwd = prompt('Nova senha para o usuário:');
       if (!pwd) return;
-      fetch(`${api}&id=${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pwd }) })
+      fetch(`${api}&id=${id}`, withCreds({ method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: pwd }) }))
         .then(r=>r.json()).then(d=>{ if (d.status==='success'){ flash('Senha atualizada'); } else { flash('Erro ao atualizar senha', false); } });
     }
   });
 
   load();
 });
-

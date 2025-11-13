@@ -1,5 +1,6 @@
 const apiDisp = '../../src/Controllers/AdminController.php?resource=dispositivos';
 const apiSetAdm = '../../src/Controllers/AdminController.php?resource=setores';
+const withCreds = (options = {}) => ({ credentials: 'same-origin', ...options });
 const tbodyDisp = document.getElementById('tbody');
 const msgDisp = document.getElementById('msg');
 const nomeDisp = document.getElementById('nome');
@@ -14,7 +15,7 @@ function flashDisp(m, ok = true) {
 }
 
 function loadSetoresSelect() {
-  return fetch(apiSetAdm + '?ativos=1')
+  return fetch(apiSetAdm + '&ativos=1', withCreds())
     .then((r) => r.json())
     .then((rows) => {
       idSetorDisp.innerHTML = '<option value="">Sem setor</option>' + rows.map((s) => `<option value="${s.id}">${s.nome}</option>`).join('');
@@ -25,7 +26,7 @@ function loadSetoresSelect() {
 }
 
 function loadDispositivos() {
-  fetch(apiDisp)
+  fetch(apiDisp, withCreds())
     .then((r) => r.json())
     .then((rows) => {
       tbodyDisp.innerHTML = '';
@@ -49,7 +50,7 @@ function loadDispositivos() {
           </td>`;
         tr.dataset.id = r.id;
         tbodyDisp.appendChild(tr);
-        fetch(apiSetAdm + '?ativos=1')
+        fetch(apiSetAdm + '&ativos=1', withCreds())
           .then((x) => x.json())
           .then((setores) => {
             const sel = tr.querySelector('select[data-field="id_setor"]');
@@ -69,7 +70,7 @@ document.getElementById('btnAdd').addEventListener('click', () => {
     id_setor: idSetorDisp.value ? Number(idSetorDisp.value) : null,
     status: statusDisp.checked,
   };
-  fetch(apiDisp, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+  fetch(apiDisp, withCreds({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }))
     .then((r) => r.json())
     .then((d) => {
       if (d.status === 'success') {
@@ -96,7 +97,7 @@ tbodyDisp.addEventListener('click', (e) => {
     const cod = tr.querySelector('[data-field="codigo"]').textContent.trim();
     const set = tr.querySelector('select[data-field="id_setor"]').value;
     const payload = { nome: nom, codigo: cod, id_setor: set ? Number(set) : null };
-    fetch(apiDisp + '&id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    fetch(apiDisp + '&id=' + id, withCreds({ method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -108,7 +109,7 @@ tbodyDisp.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[4].textContent.includes('Ativo');
-    fetch(apiDisp + '&id=' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: !current }) })
+    fetch(apiDisp + '&id=' + id, withCreds({ method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: !current }) }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -120,7 +121,7 @@ tbodyDisp.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiDisp + '&id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiDisp + '&id=' + id + '&hard=1', withCreds({ method: 'DELETE' }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -134,4 +135,3 @@ tbodyDisp.addEventListener('click', (e) => {
 });
 
 loadSetoresSelect().then(loadDispositivos);
-

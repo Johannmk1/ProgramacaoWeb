@@ -1,4 +1,5 @@
 const apiPerguntas = '../../src/Controllers/AdminController.php?resource=perguntas';
+const withCreds = (options = {}) => ({ credentials: 'same-origin', ...options });
 const tbodyPerg = document.getElementById('tbody');
 const msgPerg = document.getElementById('msg');
 const textoPerg = document.getElementById('texto');
@@ -12,7 +13,7 @@ function flashPerg(m, ok = true) {
 }
 
 function loadPerguntas() {
-  fetch(apiPerguntas)
+  fetch(apiPerguntas, withCreds())
     .then((r) => r.json())
     .then((rows) => {
       tbodyPerg.innerHTML = '';
@@ -43,11 +44,11 @@ document.getElementById('btnAdd').addEventListener('click', () => {
     ordem: ordemPerg.value ? Number(ordemPerg.value) : 0,
     status: statusPerg.checked,
   };
-  fetch(apiPerguntas, {
+  fetch(apiPerguntas, withCreds({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-  })
+  }))
     .then((r) => r.json())
     .then((d) => {
       if (d.status === 'success') {
@@ -71,11 +72,11 @@ tbodyPerg.addEventListener('click', (e) => {
   if (act === 'save') {
     const t = tr.querySelector('[data-field="texto"]').textContent.trim();
     const o = Number(tr.querySelector('[data-field="ordem"]').textContent.trim() || '0');
-    fetch(apiPerguntas + '&id=' + id, {
+    fetch(apiPerguntas + '&id=' + id, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ texto: t, ordem: o }),
-    })
+    }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -87,11 +88,11 @@ tbodyPerg.addEventListener('click', (e) => {
       });
   } else if (act === 'toggle') {
     const current = tr.children[3].textContent.includes('Ativa');
-    fetch(apiPerguntas + '&id=' + id, {
+    fetch(apiPerguntas + '&id=' + id, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: !current }),
-    })
+    }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -103,7 +104,7 @@ tbodyPerg.addEventListener('click', (e) => {
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiPerguntas + '&id=' + id + '&hard=1', { method: 'DELETE' })
+    fetch(apiPerguntas + '&id=' + id + '&hard=1', withCreds({ method: 'DELETE' }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
@@ -117,4 +118,3 @@ tbodyPerg.addEventListener('click', (e) => {
 });
 
 loadPerguntas();
-
