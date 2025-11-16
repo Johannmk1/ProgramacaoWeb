@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Tema</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/kiosk.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="admin-breadcrumb">Administração • Tema</p>
+          <h1>Configurar tema</h1>
+          <p class="admin-helper">Defina cores e largura do card. Veja o preview em tempo real.</p>
+        </div>
+        <a class="admin-back" href="index.html">Voltar</a>
+      </header>
+
+      <section class="admin-panel form-panel">
+        <div>
+          <h2>Aparência</h2>
+          <p class="admin-helper">Escolha as cores principais utilizadas no totem.</p>
+        </div>
+        <div class="grid-2">
+          <label class="label">Cor primária
+            <input id="primaryColor" class="color-input" type="color" value="#2563eb" />
+          </label>
+          <label class="label">Cor secundária
+            <input id="secondaryColor" class="color-input" type="color" value="#0ea5e9" />
+          </label>
+          <label class="label">Cor de fundo
+            <input id="tertiaryColor" class="color-input" type="color" value="#f7f8fa" />
+          </label>
+          <label class="label">Largura do card
+            <input id="cardMaxWidth" type="text" placeholder="820px" />
+          </label>
+        </div>
+        <button id="btnSalvar" class="btn mt-10">Salvar tema</button>
+        <p id="msg" class="mensagem"></p>
+      </section>
+
+      <section class="admin-panel">
+        <div>
+          <h2>Preview</h2>
+          <p class="admin-helper">Assim o totem ficará após salvar.</p>
+        </div>
+        <div id="themePreview" class="theme-preview">
+          <section class="card avaliacao-card preview-card">
+            <header class="app-header">
+              <h1>Responda à avaliação</h1>
+              <p class="sub">Escolha a nota que melhor representa sua experiência.</p>
+            </header>
+            <form class="nps-card" onsubmit="return false;">
+              <div class="pergunta">
+                <div class="label">Como você avalia o atendimento hoje?</div>
+                <div class="score-grid">
+                  <button type="button" class="nps-btn" data-score="0" disabled>0</button>
+                  <button type="button" class="nps-btn" data-score="1" disabled>1</button>
+                  <button type="button" class="nps-btn" data-score="2" disabled>2</button>
+                  <button type="button" class="nps-btn" data-score="3" disabled>3</button>
+                  <button type="button" class="nps-btn" data-score="4" disabled>4</button>
+                  <button type="button" class="nps-btn" data-score="5" disabled>5</button>
+                  <button type="button" class="nps-btn" data-score="6" disabled>6</button>
+                  <button type="button" class="nps-btn" data-score="7" disabled>7</button>
+                  <button type="button" class="nps-btn" data-score="8" disabled>8</button>
+                  <button type="button" class="nps-btn" data-score="9" disabled>9</button>
+                  <button type="button" class="nps-btn" data-score="10" disabled>10</button>
+                </div>
+              </div>
+              <div class="toolbar nps-toolbar">
+                <small>1/4</small>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn ghost" disabled>Cancelar</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div id="adminOverlay" class="overlay" style="display:none;">
+      <div class="modal">
+        <h2>Entrar</h2>
+        <form id="adminLoginForm">
+          <div class="field">
+            <label>Usuário</label>
+            <input id="adminUser" class="input" type="text" autocomplete="username" />
+          </div>
+          <div class="field">
+            <label>Senha</label>
+            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
+          </div>
+          <button class="btn" type="submit">Entrar</button>
+          <p id="adminMsg" class="mensagem"></p>
+        </form>
+        <div class="admin-link">
+          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/auth.js" defer></script>
+    <script src="js/tema.js" defer></script>
+  </body>
+</html>
