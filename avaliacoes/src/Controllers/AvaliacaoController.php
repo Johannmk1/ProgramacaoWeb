@@ -17,8 +17,8 @@ class AvaliacaoController {
         return Pergunta::getAtivas($this->pdo);
     }
 
-    public function salvarAvaliacao(array $respostas, ?string $feedback = null, ?string $id_dispositivo = null): bool {
-        return Avaliacao::salvarLote($this->pdo, $respostas, $feedback, $id_dispositivo);
+    public function salvarAvaliacao(array $respostas, ?string $id_dispositivo = null): bool {
+        return Avaliacao::salvarLote($this->pdo, $respostas, $id_dispositivo);
     }
 }
 function handle_salvar_avaliacao(): void {
@@ -27,7 +27,6 @@ function handle_salvar_avaliacao(): void {
 
     $payload = body_json();
     $respostas = $payload['respostas'] ?? null;
-    $feedback = $payload['feedback'] ?? null;
     $device = $payload['device'] ?? ($_GET['device'] ?? null);
 
     if (!is_array($respostas) || empty($respostas)) { json_error(400, 'Dados invǭlidos'); return; }
@@ -35,7 +34,7 @@ function handle_salvar_avaliacao(): void {
     $db = (new Database())->connect();
     $controller = new AvaliacaoController($db);
 
-    $ok = $controller->salvarAvaliacao($respostas, $feedback, $device ? (string)$device : null);
+    $ok = $controller->salvarAvaliacao($respostas, $device ? (string)$device : null);
     if ($ok) { json_ok(['status' => 'success']); }
     else { json_error(500, 'Falha ao salvar avaliação'); }
 }
@@ -59,19 +58,29 @@ function handle_listar_perguntas(): void {
 
     if ($device !== '') {
         $rows = Pergunta::listarPorDispositivo($pdo, $device);
-            if (!empty($rows)) {
-                foreach ($rows as $r) { 
-                    $result[] = ['id' => (int)$r['id'], 'texto' => (string)$r['texto']]; 
-                }
-                json_ok($result);
-                return;
-            }
+        if (empty($rows)) {
+            json_ok([
+                'status' => 'empty',
+                'message' => 'Nenhuma pergunta disponível para este dispositivo. Configure um setor ativo na área administrativa.',
+                'perguntas' => [],
+            ]);
+            return;
+        }
+        foreach ($rows as $r) {
+            $result[] = [
+                'id' => (int)$r['id'],
+                'texto' => (string)$r['texto'],
+                'tipo' => $r['tipo'] ?? 'nps',
+            ];
+        }
+        json_ok(['status' => 'ok', 'perguntas' => $result]);
+        return;
     }
 
     $controller = new AvaliacaoController($db);
     foreach ($controller->getPerguntas() as $p) {
-        $result[] = ['id' => $p->getId(), 'texto' => $p->getTexto()];
+        $result[] = ['id' => $p->getId(), 'texto' => $p->getTexto(), 'tipo' => $p->getTipo()];
     }
-    json_ok($result);
+    json_ok(['status' => 'ok', 'perguntas' => $result]);
 }
 

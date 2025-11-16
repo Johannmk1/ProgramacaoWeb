@@ -1,6 +1,6 @@
-﻿{
-  "primaryColor": "#2563eb",
-  "secondaryColor": "#80afd1",
-  "tertiaryColor": "#f8fafc",
-  "cardMaxWidth": "820px"
+{
+    "primaryColor": "#3b78ba",
+    "secondaryColor": "#bed5ee",
+    "tertiaryColor": "#e0ecff",
+    "cardMaxWidth": "890px"
 }

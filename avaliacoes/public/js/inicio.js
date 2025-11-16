@@ -67,7 +67,9 @@ async function init() {
   adminLink?.addEventListener('click', (e) => {
     e.preventDefault();
     const ret = `${window.location.pathname}${window.location.search || ''}`;
-    const url = new URL('admin.html', window.location.href);
+    const url = new URL('login.php', window.location.href);
+    url.searchParams.set('context', 'admin');
+    url.searchParams.set('panel', 'device');
     url.searchParams.set('from', ret);
     window.location.href = url.toString();
   });

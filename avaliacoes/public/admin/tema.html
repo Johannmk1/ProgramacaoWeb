@@ -16,7 +16,7 @@
           <h1>Configurar tema</h1>
           <p class="admin-helper">Defina cores e largura do card. Veja o preview em tempo real.</p>
         </div>
-        <a class="admin-back" href="index.html">Voltar</a>
+        <a class="admin-back" href="index.php">Voltar</a>
       </header>
 
       <section class="admin-panel form-panel">
@@ -81,27 +81,6 @@
         </div>
       </section>
     </main>
-
-    <div id="adminOverlay" class="overlay" style="display:none;">
-      <div class="modal">
-        <h2>Entrar</h2>
-        <form id="adminLoginForm">
-          <div class="field">
-            <label>Usuário</label>
-            <input id="adminUser" class="input" type="text" autocomplete="username" />
-          </div>
-          <div class="field">
-            <label>Senha</label>
-            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
-          </div>
-          <button class="btn" type="submit">Entrar</button>
-          <p id="adminMsg" class="mensagem"></p>
-        </form>
-        <div class="admin-link">
-          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
-        </div>
-      </div>
-    </div>
 
     <script src="js/auth.js" defer></script>
     <script src="js/tema.js" defer></script>

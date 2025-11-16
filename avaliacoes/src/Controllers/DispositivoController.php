@@ -11,7 +11,7 @@ function handle_dispositivos_publicos(): void {
     http_json();
     $pdo = (new Database())->connect();
     $ativos = isset($_GET['ativos']) && $_GET['ativos'] == '1';
-    $rows = Dispositivo::listar($pdo, $ativos);
+    $rows = Dispositivo::listar($pdo, $ativos, true);
     json_ok($rows);
 }
 

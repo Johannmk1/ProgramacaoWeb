@@ -10,7 +10,7 @@ class Setor {
 
     public static function criar(PDO $pdo, string $nome, bool $status = true): int {
         $stmt = $pdo->prepare('INSERT INTO setores (nome, status) VALUES (?, ?)');
-        $stmt->execute([$nome, $status]);
+        $stmt->execute([$nome, self::boolParam($status)]);
         return (int)$pdo->lastInsertId('setores_id_seq');
     }
 
@@ -18,7 +18,7 @@ class Setor {
         $fields = [];
         $params = [];
         if ($nome !== null) { $fields[] = 'nome = ?'; $params[] = $nome; }
-        if ($status !== null) { $fields[] = 'status = ?'; $params[] = $status; }
+        if ($status !== null) { $fields[] = 'status = ?'; $params[] = self::boolParam($status); }
         if (empty($fields)) { return true; }
         $params[] = $id;
         $sql = 'UPDATE setores SET ' . implode(', ', $fields) . ' WHERE id = ?';
@@ -28,12 +28,15 @@ class Setor {
 
     public static function ativar(PDO $pdo, int $id, bool $ativo): bool {
         $stmt = $pdo->prepare('UPDATE setores SET status = ? WHERE id = ?');
-        return $stmt->execute([$ativo, $id]);
+        return $stmt->execute([self::boolParam($ativo), $id]);
     }
 
     public static function excluir(PDO $pdo, int $id): bool {
         $stmt = $pdo->prepare('DELETE FROM setores WHERE id = ?');
         return $stmt->execute([$id]);
+    }
+    private static function boolParam(bool $value): string {
+        return $value ? 'true' : 'false';
     }
 }
 

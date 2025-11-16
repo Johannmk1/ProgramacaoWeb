@@ -15,7 +15,7 @@
           <h1>Perguntas</h1>
           <p class="admin-helper">Cadastre novas perguntas e organize a ordem exibida no totem.</p>
         </div>
-        <a class="admin-back" href="index.html">Voltar</a>
+        <a class="admin-back" href="index.php">Voltar</a>
       </header>
 
       <section class="admin-panel form-panel">
@@ -23,9 +23,13 @@
           <h2>Nova pergunta</h2>
           <p class="admin-helper">Preencha os campos abaixo e clique em adicionar.</p>
         </div>
-        <div class="grid-3">
+        <div class="grid-4">
           <input id="texto" type="text" placeholder="Texto da pergunta" />
           <input id="ordem" type="number" min="0" step="1" placeholder="Ordem" />
+          <select id="tipo">
+            <option value="nps">0 a 10</option>
+            <option value="texto">Resposta escrita</option>
+          </select>
           <label class="label inline-field">
             <input id="status" type="checkbox" checked /> Ativa
           </label>
@@ -39,34 +43,11 @@
           <h2>Lista de perguntas</h2>
           <p class="admin-helper">Edite diretamente na tabela, altere o status ou exclua.</p>
         </div>
-        <div class="table-wrapper">
-          <table>
-            <thead><tr><th>ID</th><th>Texto</th><th>Ordem</th><th>Status</th><th>Ações</th></tr></thead>
-            <tbody id="tbody"></tbody>
-          </table>
+        <div class="table-wrapper" id="perguntasTable">
+          <div class="table-placeholder">Carregando tabela...</div>
         </div>
       </section>
     </main>
-    <div id="adminOverlay" class="overlay" style="display:none;">
-      <div class="modal">
-        <h2>Entrar</h2>
-        <form id="adminLoginForm">
-          <div class="field">
-            <label>Usuário</label>
-            <input id="adminUser" class="input" type="text" autocomplete="username" />
-          </div>
-          <div class="field">
-            <label>Senha</label>
-            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
-          </div>
-          <button class="btn" type="submit">Entrar</button>
-          <p id="adminMsg" class="mensagem"></p>
-        </form>
-        <div class="admin-link">
-          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
-        </div>
-      </div>
-    </div>
     <script src="js/auth.js" defer></script>
 
     <script src="js/perguntas.js" defer></script>

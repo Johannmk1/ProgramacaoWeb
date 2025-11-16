@@ -13,7 +13,7 @@
       <div>
         <p class="admin-breadcrumb">Área administrativa</p>
         <h1>Administração</h1>
-        <p class="admin-helper">Gerencie perguntas, setores, dispositivos e usuários.</p>
+        <p class="admin-helper">Gerencie perguntas, setores, dispositivos, usuários e Tema.</p>
       </div>
     </header>
 
@@ -36,29 +36,13 @@
           Usuários
           <span>Controle quem pode acessar a área administrativa.</span>
         </a>
+        <a class="admin-card-link" href="tema.html">
+          Tema
+          <span>Personalize cores e aparência do totem.</span>
+        </a>
       </div>
     </section>
   </main>
-    <div id="adminOverlay" class="overlay" style="display:none;">
-      <div class="modal">
-        <h2>Entrar</h2>
-        <form id="adminLoginForm">
-          <div class="field">
-            <label>Usuário</label>
-            <input id="adminUser" class="input" type="text" autocomplete="username" />
-          </div>
-          <div class="field">
-            <label>Senha</label>
-            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
-          </div>
-          <button class="btn" type="submit">Entrar</button>
-          <p id="adminMsg" class="mensagem"></p>
-        </form>
-        <div class="admin-link">
-          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
-        </div>
-      </div>
-    </div>
     <script src="js/auth.js" defer></script>
   </body>
 </html>

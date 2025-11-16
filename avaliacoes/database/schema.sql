@@ -3,6 +3,10 @@
 CREATE TABLE IF NOT EXISTS perguntas (
   id SERIAL PRIMARY KEY,
   texto TEXT NOT NULL,
+  -- tipo define como a pergunta será respondida:
+  -- 'nps': botão 0-10
+  -- 'texto': resposta escrita livre
+  tipo VARCHAR(20) NOT NULL DEFAULT 'nps',
   status BOOLEAN NOT NULL DEFAULT TRUE,
   ordem INTEGER NOT NULL DEFAULT 0
 );
@@ -11,16 +15,16 @@ CREATE TABLE IF NOT EXISTS avaliacoes (
   id SERIAL PRIMARY KEY,
   id_pergunta INTEGER NOT NULL REFERENCES perguntas(id) ON DELETE CASCADE,
   id_dispositivo TEXT NULL,
-  resposta INTEGER NOT NULL CHECK (resposta BETWEEN 0 AND 10),
-  feedback TEXT NULL,
+  resposta INTEGER NULL CHECK (resposta BETWEEN 0 AND 10),
+  resposta_texto TEXT NULL,
   data_hora TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- Perguntas de exemplo
-INSERT INTO perguntas (texto, status, ordem) VALUES
-('Atendimento foi cordial?', TRUE, 1),
-('Tempo de espera foi adequado?', TRUE, 2),
-('Solução atendeu sua necessidade?', TRUE, 3)
+INSERT INTO perguntas (texto, tipo, status, ordem) VALUES
+('Atendimento foi cordial?', 'nps', TRUE, 1),
+('Tempo de espera foi adequado?', 'nps', TRUE, 2),
+('Solução atendeu sua necessidade?', 'nps', TRUE, 3)
 ON CONFLICT DO NOTHING;
 
 -- Tabela de setores (áreas/unidades)
@@ -59,3 +63,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   status BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+INSERT INTO usuarios (username, password_hash, status)
+VALUES ('root', 'root', TRUE)
+ON CONFLICT (username) DO NOTHING;

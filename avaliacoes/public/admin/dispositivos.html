@@ -15,7 +15,7 @@
         <h1>Dispositivos</h1>
         <p class="admin-helper">Registre totens e associe cada um ao setor correto.</p>
       </div>
-      <a class="admin-back" href="index.html">Voltar</a>
+      <a class="admin-back" href="index.php">Voltar</a>
     </header>
 
     <section class="admin-panel form-panel">
@@ -35,40 +35,17 @@
       <p id="msg" class="mensagem"></p>
     </section>
 
-    <section class="admin-panel">
-      <div>
-        <h2>Lista de dispositivos</h2>
-        <p class="admin-helper">Edite qualquer campo diretamente na tabela ou ajuste o status.</p>
-      </div>
-      <div class="table-wrapper">
-        <table>
-          <thead><tr><th>ID</th><th>Nome</th><th>Código</th><th>Setor</th><th>Status</th><th>Ações</th></tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </section>
+      <section class="admin-panel">
+        <div>
+          <h2>Lista de dispositivos</h2>
+          <p class="admin-helper">Edite qualquer campo diretamente na tabela ou ajuste o status.</p>
+        </div>
+        <div class="table-wrapper" id="dispositivosTable">
+          <div class="table-placeholder">Carregando tabela...</div>
+        </div>
+      </section>
   </main>
-  <div id="adminOverlay" class="overlay" style="display:none;">
-    <div class="modal">
-      <h2>Entrar</h2>
-      <form id="adminLoginForm">
-        <div class="field">
-          <label>Usuário</label>
-          <input id="adminUser" class="input" type="text" autocomplete="username" />
-        </div>
-        <div class="field">
-          <label>Senha</label>
-          <input id="adminPass" class="input" type="password" autocomplete="current-password" />
-        </div>
-        <button class="btn" type="submit">Entrar</button>
-        <p id="adminMsg" class="mensagem"></p>
-      </form>
-      <div class="admin-link">
-        <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
-      </div>
-    </div>
-  </div>
-  <script src="js/auth.js" defer></script>
+    <script src="js/auth.js" defer></script>
 
   <script src="js/dispositivos.js" defer></script>
 </body>

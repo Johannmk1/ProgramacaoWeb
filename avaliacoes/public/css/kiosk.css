@@ -171,12 +171,17 @@ main {
 
 .score-grid {
   display: grid;
-  grid-template-columns: repeat(11, minmax(48px, 1fr));
-  gap: clamp(8px, 1.5vw, 16px);
+  grid-template-columns: repeat(11, minmax(42px, 1fr));
+  gap: clamp(6px, 1vw, 10px);
   margin-top: 32px;
-  width: min(700px, 100%);
+  width: min(640px, 100%);
   margin-left: auto;
   margin-right: auto;
+}
+
+.theme-preview .score-grid {
+  grid-template-columns: repeat(11, minmax(38px, 1fr));
+  width: min(520px, 100%);
 }
 
 .pergunta.nps .label {
@@ -289,67 +294,3 @@ main {
 .fab-gear{ position:fixed; bottom:12px; right:12px; opacity:.18; border:none; background:transparent; font-size:26px; }
 
 /* Admin */
-#adminCard {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--color-secondary, #22d3ee) 35%, rgba(255,255,255,.95)), color-mix(in srgb, var(--color-secondary, #22d3ee) 15%, rgba(255,255,255,.9)));
-  box-shadow: 0 25px 45px rgba(15, 23, 42, .15);
-  padding: 48px 56px;
-  border-radius: 32px;
-  max-width: 680px;
-  width: min(90vw, var(--k-card-max));
-}
-
-#adminCard h2 {
-  font-size: clamp(2rem, 2.5vw, 2.75rem);
-  margin-bottom: 8px;
-  color: var(--color-secondary-contrast, var(--k-title));
-}
-
-#adminCard h3 {
-  font-size: 1.4rem;
-  margin-bottom: 16px;
-  color: var(--color-secondary-contrast, var(--k-text));
-}
-
-#adminPanel,
-#adminLogin {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-.select {
-  width: min(360px, 90%);
-  border-radius: 999px;
-  border: 2px solid color-mix(in srgb, var(--color-secondary, #22d3ee) 45%, rgba(15,23,42,.2));
-  background: color-mix(in srgb, var(--color-secondary, #22d3ee) 15%, rgba(255,255,255,.95));
-  padding: 12px 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-secondary-contrast, var(--k-text));
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, .08);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.select:focus {
-  outline: none;
-  border-color: var(--color-primary, var(--k-primary));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #2563eb) 35%, rgba(37, 99, 235, .2));
-}
-
-#adminPanel .btn {
-  min-width: 140px;
-}
-
-#adminPanel .actions,
-#adminLogin .actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#adminCard p {
-  margin: 0;
-  color: var(--color-secondary-contrast, var(--k-text));
-}

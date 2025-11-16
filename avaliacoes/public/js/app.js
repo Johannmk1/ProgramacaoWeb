@@ -125,7 +125,13 @@
         return App.fetchJSON(`${BASE}/DispositivoController.php?action=publicos&ativos=1`, { cache: 'no-store' });
       },
       perguntas(device) {
-        return App.fetchJSON(`${BASE}/AvaliacaoController.php?action=perguntas&device=${encodeURIComponent(device || '')}`, { cache: 'no-store' });
+        return App.fetchJSON(`${BASE}/AvaliacaoController.php?action=perguntas&device=${encodeURIComponent(device || '')}`, { cache: 'no-store' })
+          .then((data) => {
+            if (Array.isArray(data)) {
+              return { status: 'ok', perguntas: data };
+            }
+            return data;
+          });
       },
       salvarAvaliacao(body) {
         return App.fetchJSON(`${BASE}/AvaliacaoController.php?action=salvar`, {

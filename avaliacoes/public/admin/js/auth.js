@@ -1,34 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('adminOverlay');
-  const loginForm = document.getElementById('adminLoginForm');
-  const userEl = document.getElementById('adminUser');
-  const passEl = document.getElementById('adminPass');
-  const msgEl = document.getElementById('adminMsg');
-  const logoutBtn = document.getElementById('btnAdminLogout');
+  const basePath = '../../src/Controllers';
+  const url = new URL('../login.php', window.location.href);
+  url.searchParams.set('context', 'admin');
+  const path = window.location.pathname.split('/public/')[1] || 'admin/index.php';
+  url.searchParams.set('redirect', path);
 
-  function showOverlay() { if (overlay) overlay.style.display = 'flex'; }
-  function hideOverlay() { if (overlay) overlay.style.display = 'none'; }
-
-  function checkAuth() {
-    return fetch('../../src/Controllers/AuthController.php?action=me', { cache: 'no-store', credentials: 'same-origin' })
-      .then(r => { if (!r.ok) throw new Error('unauth'); return r.json(); })
-      .then(() => { hideOverlay(); })
-      .catch(() => { showOverlay(); });
+  function redirectToLogin() {
+    window.location.href = url.toString();
   }
 
-  loginForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    msgEl.textContent = '';
-    fetch('../../src/Controllers/AuthController.php?action=login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: userEl.value.trim(), password: passEl.value }) })
-      .then(r=>r.json())
-      .then(d=>{ if (d.status==='success') { hideOverlay(); } else { msgEl.textContent = d.message || 'Falha de login'; } })
-      .catch(()=>{ msgEl.textContent = 'Erro de rede'; });
-  });
-
-  logoutBtn?.addEventListener('click', () => {
-    fetch('../../src/Controllers/AuthController.php?action=logout', { credentials: 'same-origin' }).finally(() => showOverlay());
-  });
+  function checkAuth() {
+    return fetch(`${basePath}/AuthController.php?action=me`, { cache: 'no-store', credentials: 'same-origin' })
+      .then((resp) => { if (!resp.ok) throw new Error('unauth'); return resp.json(); })
+      .catch(redirectToLogin);
+  }
 
   checkAuth();
 });
-

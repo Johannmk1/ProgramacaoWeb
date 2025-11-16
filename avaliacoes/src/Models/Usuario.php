@@ -9,7 +9,7 @@ class Usuario {
     public static function criar(PDO $pdo, string $username, string $password, bool $status = true): int {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare('INSERT INTO usuarios (username, password_hash, status) VALUES (?, ?, ?)');
-        $stmt->execute([$username, $hash, $status]);
+        $stmt->execute([$username, $hash, self::boolParam($status)]);
         try { return (int)$pdo->lastInsertId('usuarios_id_seq'); } catch (Throwable $e) { return (int)$pdo->lastInsertId(); }
     }
 
@@ -17,7 +17,7 @@ class Usuario {
         $fields = [];
         $params = [];
         if ($username !== null) { $fields[] = 'username = ?'; $params[] = $username; }
-        if ($status !== null)   { $fields[] = 'status = ?';   $params[] = $status; }
+        if ($status !== null)   { $fields[] = 'status = ?';   $params[] = self::boolParam($status); }
         if (empty($fields)) { return true; }
         $params[] = $id;
         $sql = 'UPDATE usuarios SET ' . implode(', ', $fields) . ' WHERE id = ?';
@@ -31,7 +31,11 @@ class Usuario {
         return $stmt->execute([$hash, $id]);
     }
 
-    public static function desativar(PDO $pdo, int $id): bool {
+    public static function desativar(PDO $pdo, int $id, bool $excluir = false): bool {
+        if ($excluir) {
+            $stmt = $pdo->prepare('DELETE FROM usuarios WHERE id = ?');
+            return $stmt->execute([$id]);
+        }
         $stmt = $pdo->prepare('UPDATE usuarios SET status = FALSE WHERE id = ?');
         return $stmt->execute([$id]);
     }
@@ -41,6 +45,13 @@ class Usuario {
         $stmt->execute([$username]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
+    }
+
+    public static function total(PDO $pdo): int {
+        return (int)$pdo->query('SELECT COUNT(*) FROM usuarios')->fetchColumn();
+    }
+    private static function boolParam(bool $value): string {
+        return $value ? 'true' : 'false';
     }
 }
 

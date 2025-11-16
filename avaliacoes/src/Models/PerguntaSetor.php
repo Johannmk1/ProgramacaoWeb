@@ -2,7 +2,7 @@
 
 class PerguntaSetor {
     public static function listarPerguntasComVinculo(PDO $pdo, int $id_setor): array {
-        $sql = "SELECT p.id, p.texto, p.status, p.ordem,
+        $sql = "SELECT p.id, p.texto, p.tipo, p.status, p.ordem,
                     CASE WHEN ps.id_pergunta IS NULL THEN FALSE ELSE TRUE END AS vinculada
                 FROM perguntas p
                 LEFT JOIN perguntas_setor ps ON ps.id_pergunta = p.id AND ps.id_setor = ?

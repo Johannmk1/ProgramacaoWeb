@@ -1,7 +1,7 @@
 const apiSetoresAdm = '../../src/Controllers/AdminController.php?resource=setores';
 const apiSetorPerguntas = '../../src/Controllers/AdminController.php?resource=setor_perguntas';
 const withCreds = (options = {}) => ({ credentials: 'same-origin', ...options });
-const tbodySet = document.getElementById('tbody');
+const tabelaSet = document.getElementById('setoresTable');
 const msgSet = document.getElementById('msg');
 const nomeSet = document.getElementById('nome');
 const statusSet = document.getElementById('status');
@@ -15,33 +15,54 @@ function flashSet(m, ok = true) {
   setTimeout(() => (msgSet.textContent = ''), 2500);
 }
 
-function loadSetoresAdm() {
-  fetch(apiSetoresAdm, withCreds())
-    .then((r) => r.json())
-    .then((rows) => {
-      tbodySet.innerHTML = '';
-      rows.forEach((r) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${r.id}</td>
-          <td contenteditable data-field="nome">${r.nome}</td>
-          <td>${r.status ? 'Ativo' : 'Inativo'}</td>
-          <td class="row-actions">
-            <button data-act="save">Salvar</button>
-            <button data-act="toggle">${r.status ? 'Desativar' : 'Ativar'}</button>
-            <button data-act="del">Excluir</button>
-          </td>`;
-        tr.dataset.id = r.id;
-        tbodySet.appendChild(tr);
-      });
-      if (selSetorMap) {
-        selSetorMap.innerHTML = rows.map(r => `<option value="${r.id}">${r.nome}</option>`).join('');
-        if (rows.length > 0) loadPerguntasMap();
-      }
+function renderTabelaSetores() {
+  if (!tabelaSet) return;
+  tabelaSet.innerHTML = '<div class="table-placeholder">Carregando tabela...</div>';
+  fetch(`${apiSetoresAdm}&format=html`, withCreds({ cache: 'no-store' }))
+    .then((r) => {
+      if (!r.ok) throw new Error('Falha ao carregar');
+      return r.text();
+    })
+    .then((html) => {
+      tabelaSet.innerHTML = html;
     })
     .catch(() => {
-      tbodySet.innerHTML = '<tr><td colspan="4">Falha ao carregar</td></tr>';
+      tabelaSet.innerHTML = '<div class="table-placeholder">Falha ao carregar tabela.</div>';
     });
+}
+
+function loadSetorOptions() {
+  if (!selSetorMap) return Promise.resolve();
+  const current = selSetorMap.value;
+  selSetorMap.innerHTML = '<option value="">Carregando setores...</option>';
+  return fetch(apiSetoresAdm, withCreds({ cache: 'no-store' }))
+    .then((r) => r.json())
+    .then((rows) => {
+      if (!Array.isArray(rows) || rows.length === 0) {
+        selSetorMap.innerHTML = '<option value="">Cadastre um setor</option>';
+        listaPerguntasMap.innerHTML = '<p>Cadastre um setor antes de mapear perguntas.</p>';
+        return;
+      }
+      let optionsHtml = '';
+      rows.forEach((r) => {
+        const selected = String(r.id) === current ? 'selected' : '';
+        optionsHtml += `<option value="${r.id}" ${selected}>${r.nome}</option>`;
+      });
+      selSetorMap.innerHTML = optionsHtml;
+      if (!selSetorMap.value && rows.length) {
+        selSetorMap.value = String(rows[0].id);
+      }
+      loadPerguntasMap();
+    })
+    .catch(() => {
+      selSetorMap.innerHTML = '<option value="">Erro ao carregar setores</option>';
+      listaPerguntasMap.innerHTML = '<p>Erro ao carregar setores.</p>';
+    });
+}
+
+function reloadSetores() {
+  renderTabelaSetores();
+  loadSetorOptions();
 }
 
 document.getElementById('btnAdd').addEventListener('click', () => {
@@ -57,22 +78,24 @@ document.getElementById('btnAdd').addEventListener('click', () => {
         flashSet('Criado com sucesso');
         nomeSet.value = '';
         statusSet.checked = true;
-        loadSetoresAdm();
+        reloadSetores();
       } else {
         flashSet('Erro ao criar', false);
       }
     });
 });
 
-tbodySet.addEventListener('click', (e) => {
+tabelaSet?.addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn) return;
   const tr = btn.closest('tr');
+  if (!tr || !tr.dataset.id) return;
   const id = Number(tr.dataset.id);
   const act = btn.dataset.act;
   if (act === 'save') {
-    const nom = tr.querySelector('[data-field="nome"]').textContent.trim();
-    fetch(apiSetoresAdm + '&id=' + id, withCreds({
+    const nomField = tr.querySelector('[data-field="nome"]');
+    const nom = nomField ? nomField.textContent.trim() : '';
+    fetch(`${apiSetoresAdm}&id=${id}`, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome: nom }),
@@ -81,14 +104,15 @@ tbodySet.addEventListener('click', (e) => {
       .then((d) => {
         if (d.status === 'success') {
           flashSet('Atualizado');
-          loadSetoresAdm();
+          reloadSetores();
         } else {
           flashSet('Erro ao atualizar', false);
         }
       });
   } else if (act === 'toggle') {
-    const current = tr.children[2].textContent.includes('Ativo');
-    fetch(apiSetoresAdm + '&id=' + id, withCreds({
+    const statusCell = tr.querySelector('[data-field="status"]');
+    const current = statusCell ? statusCell.dataset.status === '1' : false;
+    fetch(`${apiSetoresAdm}&id=${id}`, withCreds({
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: !current }),
@@ -97,19 +121,19 @@ tbodySet.addEventListener('click', (e) => {
       .then((d) => {
         if (d.status === 'success') {
           flashSet('Status alterado');
-          loadSetoresAdm();
+          reloadSetores();
         } else {
           flashSet('Erro ao alterar', false);
         }
       });
   } else if (act === 'del') {
     if (!confirm('Excluir permanentemente?')) return;
-    fetch(apiSetoresAdm + '&id=' + id + '&hard=1', withCreds({ method: 'DELETE' }))
+    fetch(`${apiSetoresAdm}&id=${id}&hard=1`, withCreds({ method: 'DELETE' }))
       .then((r) => r.json())
       .then((d) => {
         if (d.status === 'success') {
           flashSet('Excluído');
-          loadSetoresAdm();
+          reloadSetores();
         } else {
           flashSet('Erro ao excluir', false);
         }
@@ -117,13 +141,13 @@ tbodySet.addEventListener('click', (e) => {
   }
 });
 
-loadSetoresAdm();
+reloadSetores();
 
 function loadPerguntasMap() {
   const id = Number(selSetorMap.value);
   if (!id) { listaPerguntasMap.innerHTML = '<p>Selecione um setor.</p>'; return; }
   listaPerguntasMap.innerHTML = '<p>Carregando perguntas...</p>';
-  fetch(`${apiSetorPerguntas}&id_setor=${id}`, withCreds())
+  fetch(`${apiSetorPerguntas}&id_setor=${id}`, withCreds({ cache: 'no-store' }))
     .then(r => r.json())
     .then(rows => {
       listaPerguntasMap.innerHTML = rows.map(p => `

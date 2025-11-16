@@ -15,7 +15,7 @@
           <h1>Setores</h1>
           <p class="admin-helper">Crie setores e vincule perguntas para personalizar cada dispositivo.</p>
         </div>
-        <a class="admin-back" href="index.html">Voltar</a>
+        <a class="admin-back" href="index.php">Voltar</a>
       </header>
 
       <section class="admin-panel form-panel">
@@ -38,11 +38,8 @@
           <h2>Lista de setores</h2>
           <p class="admin-helper">Atualize informações diretamente na tabela ou altere o status.</p>
         </div>
-        <div class="table-wrapper">
-          <table>
-            <thead><tr><th>ID</th><th>Nome</th><th>Status</th><th>Ações</th></tr></thead>
-            <tbody id="tbody"></tbody>
-          </table>
+        <div class="table-wrapper" id="setoresTable">
+          <div class="table-placeholder">Carregando tabela...</div>
         </div>
       </section>
 
@@ -59,26 +56,6 @@
         <p id="msgMap" class="mensagem"></p>
       </section>
     </main>
-    <div id="adminOverlay" class="overlay" style="display:none;">
-      <div class="modal">
-        <h2>Entrar</h2>
-        <form id="adminLoginForm">
-          <div class="field">
-            <label>Usuário</label>
-            <input id="adminUser" class="input" type="text" autocomplete="username" />
-          </div>
-          <div class="field">
-            <label>Senha</label>
-            <input id="adminPass" class="input" type="password" autocomplete="current-password" />
-          </div>
-          <button class="btn" type="submit">Entrar</button>
-          <p id="adminMsg" class="mensagem"></p>
-        </form>
-        <div class="admin-link">
-          <button id="btnAdminLogout" class="btn secondary" type="button">Sair</button>
-        </div>
-    </div>
-    </div>
     <script src="js/auth.js" defer></script>
 
     <script src="js/setores.js" defer></script>
