@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const basePath = '../../src/Controllers';
-  const url = new URL('../login.php', window.location.href);
+  const url = new URL('../login/login.php', window.location.href);
   url.searchParams.set('context', 'admin');
-  const path = window.location.pathname.split('/public/')[1] || 'admin/index.php';
-  url.searchParams.set('redirect', path);
+  const redirectUrl = new URL(window.location.href);
+  url.searchParams.set('redirect', redirectUrl.toString());
 
   function redirectToLogin() {
     window.location.href = url.toString();

@@ -80,6 +80,25 @@ main { max-width: 920px; margin: 0 auto; padding: 1rem; }
   .textarea { min-height: 120px; }
 }
 
+.admin-device-layer {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 2vw, 2rem);
+  z-index: 1200;
+}
+
+.admin-device-layer .login-card {
+  width: min(360px, 92%);
+}
+
+.admin-device-layer .login-actions {
+  justify-content: center;
+}
+
 
 
 
