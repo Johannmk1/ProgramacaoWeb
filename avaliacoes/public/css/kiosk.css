@@ -290,6 +290,12 @@ main {
   border-color: var(--color-primary, var(--k-primary));
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #2563eb) 35%, rgba(37, 99, 235, .2));
 }
+#overlayInatividade,
+#adminDeviceLayer{ display:none; }
+.modal-actions{ display:flex; gap:12px; justify-content:center; }
+.device-selector,
+#seletorDispositivo{ display:none; margin-top:16px; align-items:center; gap:8px; flex-wrap:wrap; }
+.sub-centered{ text-align:center; font-size:1.05rem; }
 .admin-link{ text-align:center; margin-top:10px; }
 .fab-gear{ position:fixed; bottom:12px; right:12px; opacity:.18; border:none; background:transparent; font-size:26px; }
 

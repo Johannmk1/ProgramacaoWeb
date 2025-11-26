@@ -23,7 +23,7 @@
         <button id="btnComecar" class="btn">Começar avaliação</button>
         <p class="anonimo">Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</p>
 
-        <div id="seletorDispositivo" style="display:none; margin-top:16px; align-items:center; gap:8px; flex-wrap:wrap;">
+        <div id="seletorDispositivo" class="device-selector">
           <select id="selectDispositivo"></select>
           <button id="btnUsarDispositivo" class="btn">Usar este dispositivo</button>
           <p class="mensagem" id="mensagemDispositivo"></p>
@@ -32,7 +32,7 @@
     </main>
     <a id="adminLink" href="login/login.php?context=admin&amp;redirect=../index.html%3Fadmin-device%3D1" aria-label="Admin" class="fab-gear">⚙</a>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <div id="adminDeviceLayer" class="admin-device-layer" style="display:none;">
+    <div id="adminDeviceLayer" class="admin-device-layer">
       <section class="login-card admin-panel-card">
         <h3>Dispositivo</h3>
         <p class="login-subtitle">Selecione qual dispositivo este navegador representa.</p>
@@ -43,7 +43,7 @@
           <button id="btnAdminSaveDevice" class="btn" type="button">Salvar</button>
         </div>
         <p id="adminDeviceMsg" class="mensagem"></p>
-        <p class="admin-link" style="text-align:center; margin-top:10px;">
+        <p class="admin-link">
           <a class="btn-link" href="admin/index.php" target="_blank">Abrir painel completo</a>
         </p>
       </section>

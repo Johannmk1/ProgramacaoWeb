@@ -17,6 +17,9 @@ async function init() {
   const btnAdminSaveDevice = document.getElementById('btnAdminSaveDevice');
   const btnAdminLogoutDevice = document.getElementById('btnAdminLogoutDevice');
 
+  if (selector) selector.style.display = 'none';
+  if (adminDeviceLayer) adminDeviceLayer.style.display = 'none';
+
   let devicesLoaded = false;
   let adminDevicesLoaded = false;
 
