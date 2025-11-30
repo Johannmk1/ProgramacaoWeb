@@ -40,6 +40,10 @@
           Tema
           <span>Personalize cores e aparência do totem.</span>
         </a>
+        <a class="admin-card-link" href="bi.html">
+          Business Intelligence
+          <span>Visualize indicadores e gráficos em tempo real.</span>
+        </a>
       </div>
     </section>
   </main>

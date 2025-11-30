@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Business Intelligence</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="admin-breadcrumb">Administração • Business Intelligence</p>
+          <h1>Business Intelligence</h1>
+          <p class="admin-helper">
+            Acompanhe métricas, gráficos e detalhes das respostas coletadas.
+          </p>
+        </div>
+        <a class="admin-back" href="index.php">Voltar</a>
+      </header>
+
+      <section class="admin-panel form-panel">
+        <div>
+          <h2>Filtros</h2>
+          <p class="admin-helper">Selecione período, setor e dispositivo para atualizar os dados.</p>
+        </div>
+        <div class="grid-filtros">
+          <label class="label">
+            Início
+            <input id="filtroInicio" type="date" />
+          </label>
+          <label class="label">
+            Fim
+            <input id="filtroFim" type="date" />
+          </label>
+          <label class="label">
+            Setor
+            <select id="filtroSetor">
+              <option value="">Todos os setores</option>
+            </select>
+          </label>
+          <label class="label">
+            Dispositivo
+            <select id="filtroDispositivo">
+              <option value="">Todos os dispositivos</option>
+            </select>
+          </label>
+          <label class="label">
+            Pergunta
+            <select id="filtroPergunta">
+              <option value="">Todas as perguntas</option>
+            </select>
+          </label>
+        </div>
+        <button id="btnAtualizar" class="btn mt-10">Atualizar dados</button>
+        <p id="msgBi" class="mensagem"></p>
+      </section>
+
+      <section class="admin-panel">
+        <div>
+          <h2>Visão geral rápida</h2>
+          <p class="admin-helper">Entenda o nível de satisfação e o volume de respostas filtradas.</p>
+        </div>
+        <div class="bi-kpi-grid bi-kpi-grid--insights">
+          <article class="bi-kpi-card">
+            <header class="bi-kpi-head">
+              <p class="bi-kpi-label">Índice de satisfação (NPS)</p>
+              <span class="bi-tag">-100 a +100</span>
+            </header>
+            <strong id="kpiNps">--</strong>
+            <p class="bi-kpi-explain">Resultado de promotores menos detratores dividido pelo total de notas.</p>
+          </article>
+          <article class="bi-kpi-card">
+            <header class="bi-kpi-head">
+              <p class="bi-kpi-label">Respostas registradas</p>
+              <span class="bi-tag">Volume</span>
+            </header>
+            <strong id="kpiTotal">--</strong>
+            <p class="bi-kpi-explain">Quantidade de avaliações recebidas no período filtrado.</p>
+          </article>
+          <article class="bi-kpi-card">
+            <header class="bi-kpi-head">
+              <p class="bi-kpi-label">Intervalo médio entre respostas</p>
+              <span class="bi-tag">Frequência</span>
+            </header>
+            <strong id="kpiTempo">--</strong>
+            <p class="bi-kpi-explain">Ajuda a entender se o fluxo de respostas está constante ou raro.</p>
+          </article>
+          <article class="bi-kpi-card">
+            <header class="bi-kpi-head">
+              <p class="bi-kpi-label">Setor destaque</p>
+              <span class="bi-tag">Melhor NPS</span>
+            </header>
+            <strong id="kpiSetor">--</strong>
+            <p class="bi-kpi-explain">Área com maior equilíbrio entre promotores e detratores.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <div>
+          <h2>Sentimento e tendências</h2>
+          <p class="admin-helper">Compare a distribuição das notas e acompanhe a evolução diária.</p>
+        </div>
+        <div class="bi-sentiment-grid">
+          <article class="bi-sentiment-card positive">
+            <h3>Promotores (9 e 10)</h3>
+            <p class="bi-sentiment-value" id="sentPromotores">--</p>
+            <span class="bi-sentiment-extra" id="sentPromotoresPct">--</span>
+            <p class="bi-sentiment-helper">Clientes engajados que indicariam a empresa.</p>
+          </article>
+          <article class="bi-sentiment-card neutral">
+            <h3>Neutros (7 e 8)</h3>
+            <p class="bi-sentiment-value" id="sentNeutros">--</p>
+            <span class="bi-sentiment-extra" id="sentNeutrosPct">--</span>
+            <p class="bi-sentiment-helper">Satisfeitos, mas ainda pouco entusiasmados.</p>
+          </article>
+          <article class="bi-sentiment-card negative">
+            <h3>Detratores (0 a 6)</h3>
+            <p class="bi-sentiment-value" id="sentDetratores">--</p>
+            <span class="bi-sentiment-extra" id="sentDetratoresPct">--</span>
+            <p class="bi-sentiment-helper">Clientes insatisfeitos que demandam atenção imediata.</p>
+          </article>
+        </div>
+        <div class="bi-chart-grid">
+          <article class="bi-chart-card">
+            <header>
+              <div>
+                <h3>Evolução do NPS</h3>
+                <p class="bi-chart-helper">Acompanhe a variação diária dentro do intervalo filtrado.</p>
+              </div>
+              <span class="bi-badge">NPS</span>
+            </header>
+            <div class="bi-chart-canvas">
+              <canvas id="chartNps"></canvas>
+            </div>
+          </article>
+          <article class="bi-chart-card">
+            <header>
+              <div>
+                <h3>Volume de respostas</h3>
+                <p class="bi-chart-helper">Veja como as notas se distribuem em cada faixa de sentimento.</p>
+              </div>
+              <span class="bi-badge neutral">Volume</span>
+            </header>
+            <div class="bi-chart-canvas">
+              <canvas id="chartVolume"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <div>
+          <h2>Comparativos por setor e pergunta</h2>
+          <p class="admin-helper">Descubra quais setores e perguntas concentram as melhores notas.</p>
+        </div>
+        <div class="bi-chart-grid">
+          <article class="bi-chart-card">
+            <header>
+              <div>
+                <h3>NPS por setor</h3>
+                <p class="bi-chart-helper">Compare o índice de satisfação em cada área.</p>
+              </div>
+              <span class="bi-badge">Setores</span>
+            </header>
+            <div class="bi-chart-canvas">
+              <canvas id="chartSetores"></canvas>
+            </div>
+          </article>
+          <article class="bi-chart-card">
+            <header>
+              <div>
+                <h3>Desempenho das perguntas</h3>
+                <p class="bi-chart-helper">Média das perguntas mais respondidas (0 a 10).</p>
+              </div>
+              <span class="bi-badge contrast">Perguntas</span>
+            </header>
+            <div class="bi-chart-canvas">
+              <canvas id="chartPerguntas"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="admin-panel">
+        <div>
+          <h2>Respostas escritas</h2>
+          <p class="admin-helper">Listamos 5 comentários por vez, sempre respeitando os filtros aplicados.</p>
+          <p class="feedback-counter" id="feedbackResumo"></p>
+        </div>
+        <div class="feedback-list" id="listaFeedbacks">
+          <div class="feedback-placeholder">Carregando respostas...</div>
+        </div>
+        <div class="feedback-actions">
+          <button id="btnFeedbackPrev" class="btn ghost" type="button">Voltar</button>
+          <button id="btnFeedbackNext" class="btn" type="button">Próximas 5</button>
+        </div>
+      </section>
+    </main>
+    <script src="js/auth.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="js/bi.js" defer></script>
+  </body>
+</html>

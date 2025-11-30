@@ -8,6 +8,7 @@ require_once __DIR__ . '/../Models/Setor.php';
 require_once __DIR__ . '/../Models/Dispositivo.php';
 require_once __DIR__ . '/../Models/Pergunta.php';
 require_once __DIR__ . '/../Models/PerguntaSetor.php';
+require_once __DIR__ . '/../Models/RelatorioBI.php';
 require_once __DIR__ . '/../Views/Admin/AdminTableRenderer.php';
 
 http_json();
@@ -274,6 +275,24 @@ switch ($resource) {
         } else {
             json_error(405, 'Metodo nao permitido');
         }
+        break;
+
+    case 'bi':
+        if ($method !== 'GET') {
+            json_error(405, 'Metodo nao permitido');
+            break;
+        }
+        $payload = [
+            'inicio' => $_GET['inicio'] ?? null,
+            'fim' => $_GET['fim'] ?? null,
+            'setor' => $_GET['setor'] ?? null,
+            'dispositivo' => $_GET['dispositivo'] ?? null,
+            'pergunta' => $_GET['pergunta'] ?? null,
+            'page_textos' => $_GET['page_textos'] ?? null,
+            'per_page_textos' => $_GET['per_page_textos'] ?? null,
+        ];
+        $dados = RelatorioBI::gerar($pdo, $payload);
+        echo json_encode($dados, JSON_UNESCAPED_UNICODE);
         break;
 
     default:

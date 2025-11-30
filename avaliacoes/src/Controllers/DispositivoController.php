@@ -15,7 +15,6 @@ function handle_dispositivos_publicos(): void {
     json_ok($rows);
 }
 
-// Execução direta (?action=publicos)
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     $action = $_GET['action'] ?? '';
     if ($action === 'publicos') { handle_dispositivos_publicos(); }
